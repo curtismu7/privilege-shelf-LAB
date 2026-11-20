@@ -5,7 +5,7 @@ services:
     build: .
     image: privilege-shelf-lab:local
     environment:
-      SHELF_URL: ${SHELF_URL:-http://127.0.0.1:4400}
+      SHELF_URL: ${SHELF_URL:-https://local.ping-devops.com:8443/demo-shelf}
       MODE: mock
       LAB_PROXY_ORIGINS: "${LAB_PROXY_ORIGINS:-https://local.ping-devops.com:8443}"
       LAB_ALLOWED_HOSTS: "localhost:${HOST_PORT:-7828},127.0.0.1:${HOST_PORT:-7828},privilege-shelf.local.ping-devops.com:${HOST_PORT:-7828},local.ping-devops.com:8443"
