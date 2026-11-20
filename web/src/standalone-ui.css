@@ -514,18 +514,6 @@ button[aria-pressed="true"] {
   font: 0.8em var(--font-mono);
 }
 
-.shelf-card__meta .chip--real {
-  border-color: var(--status-ok);
-  color: var(--status-ok);
-  background: transparent;
-}
-
-.shelf-card__meta .chip--mock {
-  border-color: var(--muted);
-  color: var(--muted);
-  background: transparent;
-}
-
 .story__body {
   margin-left: 0.25rem;
 }
