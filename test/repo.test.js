@@ -37,7 +37,10 @@ test('the shelf data lists only labs and links only through the shared proxy', (
 
 test('Docker publishes 127.0.0.1 only', () => {
   const compose = read('docker-compose.yml');
-  const ports = [...compose.matchAll(/^\s*-\s*"?([^"\n]*:\d+(?::\d+)?)"?\s*$/gm)].map((m) => m[1]);
+  // The published port may be a literal ("127.0.0.1:7828:7828") or a compose variable ("${HOST_PORT:-7828}").
+  const ports = [...compose.matchAll(/^\s*-\s*"?([^"\n]+)"?\s*$/gm)]
+    .map((m) => m[1])
+    .filter((v) => v.includes('127.0.0.1:'));
   assert.ok(ports.length >= 1);
   for (const p of ports) assert.match(p, /^127\.0\.0\.1:/, `published port ${p}`);
   assert.match(compose, /read_only: true/);
