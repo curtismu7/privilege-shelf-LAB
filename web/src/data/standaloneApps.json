@@ -144,7 +144,7 @@
     "name": "Coding Agents LAB",
     "kind": "Demo",
     "catalogId": "D102",
-    "description": "Inspection inside Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot and Antigravity: hooks as the enforcement point, the outcome follows the risk. Opens in Real mode — every decision is the live Privilege AI Guard on our tenant; Mock and Live are the offline rehearsal.",
+    "description": "Inspection inside Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot and Antigravity: hooks as the enforcement point, the outcome follows the risk. Opens in Real mode \u2014 every decision is the live Privilege AI Guard on our tenant; Mock and Live are the offline rehearsal.",
     "repo": "https://github.com/curtismu7/coding-agents-LAB",
     "proxy": "https://local.ping-devops.com:8443/coding-agents/",
     "realMode": true
@@ -187,7 +187,7 @@
     "description": "A deliberately hostile A2A agent, an offline delegating generalist, and a pinned-card client shown side by side with an ungoverned one: the card told my agent to include my token.",
     "repo": "https://github.com/curtismu7/hostile-a2a-LAB",
     "proxy": "https://local.ping-devops.com:8443/hostile-a2a/",
-    "realMode": true
+    "realMode": false
   },
   {
     "id": "hostile-mcp",
@@ -197,7 +197,7 @@
     "description": "A deliberately hostile MCP server, an offline victim, and a pinned client shown side by side with an ungoverned one: the tool that changed overnight.",
     "repo": "https://github.com/curtismu7/hostile-mcp-LAB",
     "proxy": "https://local.ping-devops.com:8443/hostile-mcp/",
-    "realMode": true
+    "realMode": false
   },
   {
     "id": "intent-purpose-behaviour-lab",
@@ -264,7 +264,7 @@
     "name": "Meridian Pay A2A hop lab",
     "kind": "Demo",
     "catalogId": "D110",
-    "description": "Walk a delegated agent token chain one hop at a time: sign in, hand the job to a platform-signed external agent, exchange tokens (RFC 8693, third-party subject and actor), and call MCP tools through Privilege doors. Every hop shows sub/act/aud/scope, and refusals are demoed on purpose. Runs…",
+    "description": "Walk a delegated agent token chain one hop at a time: sign in, hand the job to a platform-signed external agent, exchange tokens (RFC 8693, third-party subject and actor), and call MCP tools through Privilege doors. Every hop shows sub/act/aud/scope, and refusals are demoed on purpose. Runs\u2026",
     "repo": "https://github.com/curtismu7/meridian-a2a-hop-LAB",
     "proxy": "https://local.ping-devops.com:8443/meridian-a2a-hop/",
     "realMode": false
@@ -281,7 +281,7 @@
   },
   {
     "id": "pf-privilege-obo-lab",
-    "name": "PF → Privilege OBO Lab",
+    "name": "PF \u2192 Privilege OBO Lab",
     "kind": "Demo",
     "catalogId": "D130",
     "description": "Simulated PingFederate to Privilege OBO chain: user SSO, RFC 8693 exchange (sub=user, act.sub=agent), federated-identity check, grant tiers, Cedar policy, Pass Agent Token passthrough. Interactive flow walk, eight scenarios, refusals mirror measured log lines, twelve-card issues panel. Mock only.",
@@ -337,7 +337,7 @@
     "description": "An AI agent's MCP tool calls pass a policy enforcement point that decides allow, deny or hold with Cedar. Runs offline in mock mode (in-process mock issuer and tool backends) or verifies Bearer tokens from your own PingFederate in live mode.",
     "repo": "https://github.com/curtismu7/privilege-demo-LAB",
     "proxy": "https://local.ping-devops.com:8443/privilege-demo/",
-    "realMode": false
+    "realMode": true
   },
   {
     "id": "privilege-google-secrets",
