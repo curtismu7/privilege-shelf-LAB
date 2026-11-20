@@ -56,14 +56,14 @@ try {
 }
 
 const PUBLIC_PORTS = new Set([String(PORT), process.env.HOST_PORT].filter(Boolean));
-const ALLOWED_HOSTS = new Set([...PUBLIC_PORTS].flatMap((p) => [`127.0.0.1:${p}`, `localhost:${p}`]));
-// Behind the shared lab-proxy the Host header is the proxy's domain form (privilege-shelf.local.ping-devops.com:<port>
-// or local.ping-devops.com:8443). LAB_ALLOWED_HOSTS is an explicit, comma separated list of such host[:port] values;
-// it is a fixed allow-list, not a trusted header, so nothing else can ask to be a host. Unset = loopback only.
-for (const raw of String(process.env.LAB_ALLOWED_HOSTS || '').split(',').map((v) => v.trim()).filter(Boolean)) {
-  if (!/^\[?[a-z0-9.:_-]+\]?(:\d+)?$/.test(raw)) throw new Error(`LAB_ALLOWED_HOSTS: not a host[:port] value: ${raw}`);
-  ALLOWED_HOSTS.add(raw);
-}
+const PROXY_ORIGINS_LIST = proxyOrigins();
+// Behind the lab-proxy the browser's Host is either the lab's proxy name (<name>.local.ping-devops.com:<port>)
+// or the shared proxy origin's hostname, both derived from LAB_PROXY_ORIGINS so the allow-list stays explicit.
+const PROXY_HOSTS = new Set(PROXY_ORIGINS_LIST.flatMap((o) => {
+  const h = new URL(o).hostname;
+  return [`${h}:${PORT}`, `${APP.id}.${h}:${PORT}`];
+}));
+const ALLOWED_HOSTS = new Set([...[...PUBLIC_PORTS].flatMap((p) => [`127.0.0.1:${p}`, `localhost:${p}`]), ...PROXY_HOSTS]);
 // Behind the shared lab-proxy the page's Origin is the proxy's (https://local.ping-devops.com:8443), not this app's own
 // loopback address. LAB_PROXY_ORIGINS is an explicit, comma separated list of such origins; each must be a bare http(s)
 // origin. It is a fixed allow-list, not a trusted header, so nothing else can ask to be same-origin. Unset = loopback only.
@@ -77,7 +77,7 @@ function proxyOrigins(env = process.env) {
   }
   return out;
 }
-const ALLOWED_ORIGINS = new Set([...[...PUBLIC_PORTS].flatMap((p) => [`http://127.0.0.1:${p}`, `http://localhost:${p}`]), ...proxyOrigins()]);
+const ALLOWED_ORIGINS = new Set([...[...PUBLIC_PORTS].flatMap((p) => [`http://127.0.0.1:${p}`, `http://localhost:${p}`]), ...PROXY_ORIGINS_LIST]);
 const SPEEDS = ['slow', 'normal', 'fast'];
 const PAGES = ['shelf', 'features', 'stories'];
 

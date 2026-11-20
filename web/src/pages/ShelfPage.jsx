@@ -62,6 +62,14 @@ export default function ShelfPage() {
                 <p className="small shelf-card__meta">
                   {a.catalogId ? <span className="chip">{a.catalogId}</span> : null}
                   <span className="chip">{a.id}</span>
+                  <span
+                    className={a.realMode ? 'chip chip--real' : 'chip chip--mock'}
+                    title={a.realMode
+                      ? 'Has a Real/Live mode. Some labs need owner-run credentials before Real is available.'
+                      : 'Mock only by design: this lab has no live mode and refuses Live/Real.'}
+                  >
+                    {a.realMode ? 'Real capable' : 'Mock only'}
+                  </span>
                   {a.repo ? (
                     <a href={a.repo} target="_blank" rel="noopener noreferrer" className="shelf-card__repo">
                       repo <span aria-hidden="true">&#8599;</span>

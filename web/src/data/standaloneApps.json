@@ -6,7 +6,8 @@
     "catalogId": "D33",
     "description": "Ten named attacks, including MCP authorization attacks, each run ungoverned and governed against an in-process mock stack: see what the attacker gets, then the control that refuses it.",
     "repo": "https://github.com/curtismu7/attack-gallery-LAB",
-    "proxy": "https://local.ping-devops.com:8443/attack-gallery/"
+    "proxy": "https://local.ping-devops.com:8443/attack-gallery/",
+    "realMode": false
   },
   {
     "id": "agent-audit-trail-lab",
@@ -15,7 +16,8 @@
     "catalogId": "D17",
     "description": "Who did what through which agent: seeded synthetic events from six sources, a read-only audit tool surface, and a correlation join into one timeline per action, with a tamper-evident hash chain. Fully mock; Live is refused.",
     "repo": "https://github.com/curtismu7/agent-audit-trail-LAB",
-    "proxy": "https://local.ping-devops.com:8443/agent-audit-trail-lab/"
+    "proxy": "https://local.ping-devops.com:8443/agent-audit-trail-lab/",
+    "realMode": false
   },
   {
     "id": "agent-gateway-inspector",
@@ -24,7 +26,8 @@
     "catalogId": "D54",
     "description": "Inspector for an AI/agent gateway (PingOne Privilege) that allows, denies or holds agent tool calls for a human, with a decision buffer and a verifiable audit trail. Driven by an in-process stub gateway; nothing real is touched. Mock only: Live is refused.",
     "repo": "https://github.com/curtismu7/agent-gateway-inspector-LAB",
-    "proxy": "https://local.ping-devops.com:8443/agent-gateway-inspector/"
+    "proxy": "https://local.ping-devops.com:8443/agent-gateway-inspector/",
+    "realMode": false
   },
   {
     "id": "agent-governance-lab",
@@ -33,7 +36,8 @@
     "catalogId": "D105",
     "description": "AI Platform Agents: cross-cloud inventory of 13 sources, a five-level permission review, custodian approval before any action, remediation, a safe sync that never mistakes silence for deletion, AgentCore gateway governance and private-network discovery. Mock or Live. All product claims UNVERIFIED.",
     "repo": "https://github.com/curtismu7/agent-governance-LAB",
-    "proxy": "https://local.ping-devops.com:8443/agent-governance-lab/"
+    "proxy": "https://local.ping-devops.com:8443/agent-governance-lab/",
+    "realMode": true
   },
   {
     "id": "agent-mcp-door-demo",
@@ -42,7 +46,8 @@
     "catalogId": null,
     "description": "A member's own AI agent reaches an enterprise MCP door: discover, register, consent, per-call token exchange, gateway, policy decision, human approval, audit. Movable React Flow sequence diagram with a payload or mock token under each message, talk track and presenter mode. Mock only.",
     "repo": "https://github.com/curtismu7/agent-mcp-door-demo-LAB",
-    "proxy": "https://local.ping-devops.com:8443/agent-mcp-door-demo/"
+    "proxy": "https://local.ping-devops.com:8443/agent-mcp-door-demo/",
+    "realMode": false
   },
   {
     "id": "ai-gateway-client",
@@ -51,7 +56,8 @@
     "catalogId": "D20",
     "description": "A local, no-login test client for an OAuth-protected MCP gateway. Shows one tool call through the gateway and directly, so the policy difference is visible.",
     "repo": "https://github.com/curtismu7/ai-gateway-client-LAB",
-    "proxy": "https://local.ping-devops.com:8443/ai-gateway-client/"
+    "proxy": "https://local.ping-devops.com:8443/ai-gateway-client/",
+    "realMode": true
   },
   {
     "id": "agent-privilege-guide",
@@ -60,7 +66,8 @@
     "catalogId": "D136",
     "description": "The five sections of the PingOne Privilege Agent Privilege console area as a guided tour: Agent Registry, Agentic Apps, Federated Identity, Self-Hosted Agents, AI Platform Agents, plus the Identity/Grant/Guardrail mental model. From the field guide; deck-only behaviours labelled UNVERIFIED.",
     "repo": null,
-    "proxy": "https://local.ping-devops.com:8443/agent-privilege-guide/"
+    "proxy": "https://local.ping-devops.com:8443/agent-privilege-guide/",
+    "realMode": false
   },
   {
     "id": "privilege-k8-kits",
@@ -69,7 +76,8 @@
     "catalogId": null,
     "description": "Download hub for the Agent Privilege Gateway Kubernetes deployment kits: the single-gateway quick-start package and the multi-gateway HA package (shared Redis, integrated load balancer), plus the shared 18-page deployment guide served inline. Read-only artifact server, offline.",
     "repo": "https://github.com/curtismu7/privilege-k8-kits-LAB",
-    "proxy": "https://local.ping-devops.com:8443/privilege-k8-kits/"
+    "proxy": "https://local.ping-devops.com:8443/privilege-k8-kits/",
+    "realMode": false
   },
   {
     "id": "agent-registry-demo",
@@ -78,7 +86,8 @@
     "catalogId": "D11",
     "description": "Register an AI agent as a non-human identity, grant it to a tool, rotate it by replacement, retire it, and watch the gateway refuse it (401/403/429). Mock only. Optional owner-run live checks compare with a real Privilege console.",
     "repo": "https://github.com/curtismu7/agent-registry-demo-LAB",
-    "proxy": "https://local.ping-devops.com:8443/agent-registry-demo/"
+    "proxy": "https://local.ping-devops.com:8443/agent-registry-demo/",
+    "realMode": false
   },
   {
     "id": "aggregate-entitlement-lab",
@@ -87,7 +96,8 @@
     "catalogId": "D125",
     "description": "See how an MCP aggregate lists only the tools each caller may use and refuses the rest by name: six checks, guided steps and a diagram. Mock simulates the Ping release claim (UNVERIFIED on our tenant); Real measures your own gateway's aggregate apps with your agent keys.",
     "repo": "https://github.com/curtismu7/aggregate-entitlement-LAB",
-    "proxy": "https://local.ping-devops.com:8443/aggregate-entitlement-lab/"
+    "proxy": "https://local.ping-devops.com:8443/aggregate-entitlement-lab/",
+    "realMode": true
   },
   {
     "id": "intent-console-lab",
@@ -96,7 +106,8 @@
     "catalogId": "D134",
     "description": "The Privilege console's AI Intents page as a standalone: define intents with exemplars, twins, floors and Acts, point an app at them, and resolve agent actions through an encoder sidecar. Shapes measured from the console swagger; the resolution engine is lab-invented and labelled.",
     "repo": null,
-    "proxy": "https://local.ping-devops.com:8443/intent-console-lab/"
+    "proxy": "https://local.ping-devops.com:8443/intent-console-lab/",
+    "realMode": true
   },
   {
     "id": "ai-policies-lab",
@@ -105,7 +116,8 @@
     "catalogId": "D109",
     "description": "Scope and HITL: four layered scope checks (surface, application, action, end user) on a real RS256 token you mint locally, a call held for a person, single-use approvals bound to the exact call, fail closed. Simulates release claims, all UNVERIFIED. Mock tables or a Live local engine.",
     "repo": "https://github.com/curtismu7/ai-policies-LAB",
-    "proxy": "https://local.ping-devops.com:8443/ai-policies-lab/"
+    "proxy": "https://local.ping-devops.com:8443/ai-policies-lab/",
+    "realMode": true
   },
   {
     "id": "cedar-act-sub-lab",
@@ -114,7 +126,8 @@
     "catalogId": "D134 provisional",
     "description": "Does Privilege's Cedar match the agent's act.sub claim? Measured once on a real tenant (2026-11-16, one real agent), simulated here: same token, two tools, one act.sub policy each. The matching one is allowed, the one naming a different agent is refused. Mock only; Real is owner-run.",
     "repo": "https://github.com/curtismu7/cedar-act-sub-LAB",
-    "proxy": "https://local.ping-devops.com:8443/cedar-act-sub/"
+    "proxy": "https://local.ping-devops.com:8443/cedar-act-sub/",
+    "realMode": false
   },
   {
     "id": "cedar-in-privilege-lab",
@@ -123,16 +136,18 @@
     "catalogId": "D135 provisional",
     "description": "A guided tour of Cedar AI policies in PingOne Privilege: hold a call for a human, narrow a token's scope, and match the agent's act.sub claim. Set-up guide and a Cedar IS / IS NOT panel. Simulated here; only the act.sub case was measured on a real tenant (one agent, one run).",
     "repo": "https://github.com/curtismu7/cedar-in-privilege-LAB",
-    "proxy": "https://local.ping-devops.com:8443/cedar-in-privilege/"
+    "proxy": "https://local.ping-devops.com:8443/cedar-in-privilege/",
+    "realMode": false
   },
   {
     "id": "coding-agents-lab",
     "name": "Coding Agents LAB",
     "kind": "Demo",
     "catalogId": "D102",
-    "description": "Inspection inside Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot and Antigravity: hooks as the enforcement point, the outcome follows the risk. Opens in Real mode \u2014 every decision is the live Privilege AI Guard on our tenant; Mock and Live are the offline rehearsal.",
+    "description": "Inspection inside Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot and Antigravity: hooks as the enforcement point, the outcome follows the risk. Opens in Real mode — every decision is the live Privilege AI Guard on our tenant; Mock and Live are the offline rehearsal.",
     "repo": "https://github.com/curtismu7/coding-agents-LAB",
-    "proxy": "https://local.ping-devops.com:8443/coding-agents/"
+    "proxy": "https://local.ping-devops.com:8443/coding-agents/",
+    "realMode": true
   },
   {
     "id": "data-protection-lab",
@@ -141,7 +156,8 @@
     "catalogId": "D103",
     "description": "AIGuard content inspection in and out with graduated outcomes, your own gitleaks rules, personal-data kinds with checksums, Agent Insights, the OWASP Agentic Top 10, and sealed prompt logging. Mock reads tables; Live runs locally; a Privilege check sends the text through the live AI Guard.",
     "repo": "https://github.com/curtismu7/data-protection-LAB",
-    "proxy": "https://local.ping-devops.com:8443/data-protection/"
+    "proxy": "https://local.ping-devops.com:8443/data-protection/",
+    "realMode": true
   },
   {
     "id": "federated-identity-lab",
@@ -150,7 +166,8 @@
     "catalogId": "D107",
     "description": "Simulates the 2026-11-02 Ping release claims for Federated Identity (short-lived tokens, issuer, subject and audience binding, lifetimes, key refresh, revocation) and Self-Hosted Agents, with real local RS256 verification. Mock tables or a Live local engine. Every product claim is UNVERIFIED.",
     "repo": "https://github.com/curtismu7/federated-identity-LAB",
-    "proxy": "https://local.ping-devops.com:8443/federated-identity-lab/"
+    "proxy": "https://local.ping-devops.com:8443/federated-identity-lab/",
+    "realMode": true
   },
   {
     "id": "gateway-claims-lab",
@@ -159,7 +176,8 @@
     "catalogId": "D99",
     "description": "What gateway v1.261024 added, in mock: a nested-claim gate (client_id + act.sub via RequiredClaims, including the act-as-text trap) and an AgentCore gateway posture view (shape only, values invented), plus two H2 2026 release tabs (on-behalf-of RFC 8693 exchange, AgentCore gateway governance...",
     "repo": "https://github.com/curtismu7/gateway-claims-LAB",
-    "proxy": "https://local.ping-devops.com:8443/gateway-claims/"
+    "proxy": "https://local.ping-devops.com:8443/gateway-claims/",
+    "realMode": false
   },
   {
     "id": "hostile-a2a",
@@ -168,7 +186,8 @@
     "catalogId": "D7",
     "description": "A deliberately hostile A2A agent, an offline delegating generalist, and a pinned-card client shown side by side with an ungoverned one: the card told my agent to include my token.",
     "repo": "https://github.com/curtismu7/hostile-a2a-LAB",
-    "proxy": "https://local.ping-devops.com:8443/hostile-a2a/"
+    "proxy": "https://local.ping-devops.com:8443/hostile-a2a/",
+    "realMode": true
   },
   {
     "id": "hostile-mcp",
@@ -177,7 +196,8 @@
     "catalogId": "D6",
     "description": "A deliberately hostile MCP server, an offline victim, and a pinned client shown side by side with an ungoverned one: the tool that changed overnight.",
     "repo": "https://github.com/curtismu7/hostile-mcp-LAB",
-    "proxy": "https://local.ping-devops.com:8443/hostile-mcp/"
+    "proxy": "https://local.ping-devops.com:8443/hostile-mcp/",
+    "realMode": true
   },
   {
     "id": "intent-purpose-behaviour-lab",
@@ -186,7 +206,8 @@
     "catalogId": "D101",
     "description": "Three signals asked of every call (intent, purpose, behaviour), plus on-behalf-of and ID-JAG flows, modelling the 2026-11-02 Ping release claims. Mock reads tables; Live signs for real (RS256) locally; a Privilege check sends the call through the live AI Guard on our tenant.",
     "repo": "https://github.com/curtismu7/intent-purpose-behaviour-LAB",
-    "proxy": "https://local.ping-devops.com:8443/intent-purpose-behaviour/"
+    "proxy": "https://local.ping-devops.com:8443/intent-purpose-behaviour/",
+    "realMode": true
   },
   {
     "id": "mcp-demo-client-privilege",
@@ -195,7 +216,8 @@
     "catalogId": "D2",
     "description": "Chat-first local MCP demo client for protected MCP demos behind a PingOne Privilege gateway.",
     "repo": "https://github.com/curtismu7/mcp-demo-client-privilege-LAB",
-    "proxy": "https://local.ping-devops.com:8443/mcp-demo-client/"
+    "proxy": "https://local.ping-devops.com:8443/mcp-demo-client/",
+    "realMode": true
   },
   {
     "id": "mcp-elicitation-lab",
@@ -204,7 +226,8 @@
     "catalogId": "D37",
     "description": "An MCP server mid-tool-call asks the person for more: form mode and URL mode, accept / decline / cancel, -32042, and the spec's safety rules, with findings when a server breaks them. Mock server and mock client; nothing is fetched.",
     "repo": "https://github.com/curtismu7/mcp-elicitation-LAB",
-    "proxy": "https://local.ping-devops.com:8443/mcp-elicitation-lab/"
+    "proxy": "https://local.ping-devops.com:8443/mcp-elicitation-lab/",
+    "realMode": false
   },
   {
     "id": "mcp-tools",
@@ -213,7 +236,8 @@
     "catalogId": "D3",
     "description": "Connect to an MCP server, list its tools, resources and prompts, scan them, then call tools behind a confirm step. One app with the scanner (D4).",
     "repo": "https://github.com/curtismu7/mcp-tools-LAB",
-    "proxy": "https://local.ping-devops.com:8443/mcp-tools/"
+    "proxy": "https://local.ping-devops.com:8443/mcp-tools/",
+    "realMode": true
   },
   {
     "id": "mcp-scanner",
@@ -222,7 +246,8 @@
     "catalogId": "D4",
     "description": "Scan the metadata an MCP server serves, or a pasted tools/list snapshot, for tool poisoning before an agent reads it. Reports; never blocks. Same app as the inspector (D3).",
     "repo": "https://github.com/curtismu7/mcp-tools-LAB",
-    "proxy": "https://local.ping-devops.com:8443/mcp-tools/"
+    "proxy": "https://local.ping-devops.com:8443/mcp-tools/",
+    "realMode": true
   },
   {
     "id": "mcp-surface-lab",
@@ -231,16 +256,18 @@
     "catalogId": "D106",
     "description": "The MCP gateway in front of every MCP server: aggregate policy caps, entitlement-aware discovery, OpenAPI to MCP, five backend credential modes, a verified-server catalog, OAuth 2.1 with PKCE and CIMD, approval-gated creation. Simulates the 2026-11-02 release claims. Mock or Live. UNVERIFIED.",
     "repo": "https://github.com/curtismu7/mcp-surface-LAB",
-    "proxy": "https://local.ping-devops.com:8443/mcp-surface-lab/"
+    "proxy": "https://local.ping-devops.com:8443/mcp-surface-lab/",
+    "realMode": true
   },
   {
     "id": "meridian-a2a-hop",
     "name": "Meridian Pay A2A hop lab",
     "kind": "Demo",
     "catalogId": "D110",
-    "description": "Walk a delegated agent token chain one hop at a time: sign in, hand the job to a platform-signed external agent, exchange tokens (RFC 8693, third-party subject and actor), and call MCP tools through Privilege doors. Every hop shows sub/act/aud/scope, and refusals are demoed on purpose. Runs\u2026",
+    "description": "Walk a delegated agent token chain one hop at a time: sign in, hand the job to a platform-signed external agent, exchange tokens (RFC 8693, third-party subject and actor), and call MCP tools through Privilege doors. Every hop shows sub/act/aud/scope, and refusals are demoed on purpose. Runs…",
     "repo": "https://github.com/curtismu7/meridian-a2a-hop-LAB",
-    "proxy": "https://local.ping-devops.com:8443/meridian-a2a-hop/"
+    "proxy": "https://local.ping-devops.com:8443/meridian-a2a-hop/",
+    "realMode": false
   },
   {
     "id": "muse",
@@ -249,16 +276,18 @@
     "catalogId": "D21",
     "description": "A personal agent (Muse) calls tools through a PingOne Privilege-shaped gateway, with a DaVinci-shaped detection flow in front. Simulated: no tenant, no OBO.",
     "repo": "https://github.com/curtismu7/muse-LAB",
-    "proxy": "https://local.ping-devops.com:8443/muse/"
+    "proxy": "https://local.ping-devops.com:8443/muse/",
+    "realMode": true
   },
   {
     "id": "pf-privilege-obo-lab",
-    "name": "PF \u2192 Privilege OBO Lab",
+    "name": "PF → Privilege OBO Lab",
     "kind": "Demo",
     "catalogId": "D130",
     "description": "Simulated PingFederate to Privilege OBO chain: user SSO, RFC 8693 exchange (sub=user, act.sub=agent), federated-identity check, grant tiers, Cedar policy, Pass Agent Token passthrough. Interactive flow walk, eight scenarios, refusals mirror measured log lines, twelve-card issues panel. Mock only.",
     "repo": "https://github.com/curtismu7/pf-privilege-obo-LAB",
-    "proxy": "https://local.ping-devops.com:8443/pf-privilege-obo-lab/"
+    "proxy": "https://local.ping-devops.com:8443/pf-privilege-obo-lab/",
+    "realMode": false
   },
   {
     "id": "ping-services-stub",
@@ -267,7 +296,8 @@
     "catalogId": "D114",
     "description": "One stub exercising every shared Ping service the family deploys: shared local PingFederate, PingGateway, Privilege Agent Gateway, PingOne (SaaS), PingOne Privilege console, and the SE-K8s PingFederate. One real, read-only call per service; Mock/Real toggle; reuses shared infra (shared-first rule).",
     "repo": "https://github.com/curtismu7/ping-services-stub-LAB",
-    "proxy": "https://local.ping-devops.com:8443/ping-services-stub/"
+    "proxy": "https://local.ping-devops.com:8443/ping-services-stub/",
+    "realMode": true
   },
   {
     "id": "privilege-a2a-anthropic-demo",
@@ -276,7 +306,8 @@
     "catalogId": "D121",
     "description": "Three Node processes that show an access review through A2A and MCP, on Anthropic or Google models.",
     "repo": "https://github.com/curtismu7/privilege-a2a-anthropic-demo-LAB",
-    "proxy": "https://local.ping-devops.com:8443/privilege-a2a/"
+    "proxy": "https://local.ping-devops.com:8443/privilege-a2a/",
+    "realMode": true
   },
   {
     "id": "privilege-api-explorer",
@@ -285,7 +316,8 @@
     "catalogId": "D131",
     "description": "Sign in to a PingOne Privilege console with a user API key and secret, then browse all 447 console API operations from the swagger catalog with substring search and filters, and run each one live with real-time status, timing and response. Mock by default; Real is owner-run.",
     "repo": "https://github.com/curtismu7/privilege-api-explorer-LAB",
-    "proxy": "https://local.ping-devops.com:8443/privilege-api-explorer/"
+    "proxy": "https://local.ping-devops.com:8443/privilege-api-explorer/",
+    "realMode": true
   },
   {
     "id": "privilege-bulk-users",
@@ -294,7 +326,8 @@
     "catalogId": null,
     "description": "Register users for PingOne Privilege by API, in bulk: a guide to the two routes (PingOne API, Privilege console API) and a runnable lab with plan, typed-count apply and verify, 429 back-off, and six Mock scenarios. Mock by default; Real is owner-run.",
     "repo": "https://github.com/curtismu7/privilege-bulk-users-LAB",
-    "proxy": "https://local.ping-devops.com:8443/privilege-bulk-users/"
+    "proxy": "https://local.ping-devops.com:8443/privilege-bulk-users/",
+    "realMode": true
   },
   {
     "id": "privilege-demo",
@@ -303,7 +336,8 @@
     "catalogId": "D1",
     "description": "An AI agent's MCP tool calls pass a policy enforcement point that decides allow, deny or hold with Cedar. Runs offline in mock mode (in-process mock issuer and tool backends) or verifies Bearer tokens from your own PingFederate in live mode.",
     "repo": "https://github.com/curtismu7/privilege-demo-LAB",
-    "proxy": "https://local.ping-devops.com:8443/privilege-demo/"
+    "proxy": "https://local.ping-devops.com:8443/privilege-demo/",
+    "realMode": false
   },
   {
     "id": "privilege-google-secrets",
@@ -312,7 +346,8 @@
     "catalogId": "D137",
     "description": "Privilege Hubs brokering a Google Secret Manager credential to an AI agent: the agent holds only a Privilege agent key; the gateway policy allows the in-scope secret (custodian release) and refuses the out-of-scope ask. Mock gateway, custodian and secret manager; mock-issued secret labelled.",
     "repo": "https://github.com/curtismu7/privilege-google-secrets-LAB",
-    "proxy": "https://local.ping-devops.com:8443/privilege-google-secrets/"
+    "proxy": "https://local.ping-devops.com:8443/privilege-google-secrets/",
+    "realMode": false
   },
   {
     "id": "privilege-logging-lab",
@@ -321,7 +356,8 @@
     "catalogId": null,
     "description": "Drive each Privilege gateway use case and see what gets logged, scored on user, agent, tool and policy decision. Mock replays 17 transactions measured on 2026-11-07; Real (owner-run) sends them to your gateway and reads the log back. The gaps are listed, not hidden.",
     "repo": "https://github.com/curtismu7/privilege-logging-LAB",
-    "proxy": "https://local.ping-devops.com:8443/privilege-logging-lab/"
+    "proxy": "https://local.ping-devops.com:8443/privilege-logging-lab/",
+    "realMode": true
   },
   {
     "id": "privilege-map",
@@ -330,7 +366,8 @@
     "catalogId": null,
     "description": "The PingOne Privilege Federated Identity model as ReactFlow diagrams you can drag and walk through, plus 21 Privilege feature cards, stories and a talk track. Mock only.",
     "repo": "https://github.com/curtismu7/privilege-map-LAB",
-    "proxy": "https://local.ping-devops.com:8443/privilege-map/"
+    "proxy": "https://local.ping-devops.com:8443/privilege-map/",
+    "realMode": false
   },
   {
     "id": "privilege-owasp-lab",
@@ -339,7 +376,8 @@
     "catalogId": "D129",
     "description": "The OWASP Agentic AI Top 10 (ASI01-ASI10) with PingOne Privilege coverage: the slide-21 table from the Capability Overview deck, ten explained category cards, and the Gateway vs AIGuard split. The two stated gaps are labelled, not hidden. Mock is static deck wording offline; Real adds read-only live",
     "repo": "https://github.com/curtismu7/privilege-owasp-lab-LAB",
-    "proxy": "https://local.ping-devops.com:8443/privilege-owasp-lab/"
+    "proxy": "https://local.ping-devops.com:8443/privilege-owasp-lab/",
+    "realMode": true
   },
   {
     "id": "saas-access-lab",
@@ -348,7 +386,8 @@
     "catalogId": "D104",
     "description": "Just-in-time, time-bound access to six platforms (GitHub, GitLab, Salesforce, Snowflake, Databricks, Google Workspace): approval chains, blocked self-approval, expiry, receipts, drift. Mock is read-only; Live runs real local state; a Privilege check sends the request through the live AI Guard.",
     "repo": "https://github.com/curtismu7/saas-access-LAB",
-    "proxy": "https://local.ping-devops.com:8443/saas-access/"
+    "proxy": "https://local.ping-devops.com:8443/saas-access/",
+    "realMode": true
   },
   {
     "id": "secrets-vault-lab",
@@ -357,6 +396,7 @@
     "catalogId": "D108",
     "description": "A per-user credential vault (self-service, no administrator override, real AES-256-GCM, injected by a simulated gateway) and secret store management over five mock providers (AWS, GCP, Azure, Delinea, CyberArk). Mock or Live mode. Every product claim is UNVERIFIED on our tenant.",
     "repo": "https://github.com/curtismu7/secrets-vault-LAB",
-    "proxy": "https://local.ping-devops.com:8443/secrets-vault-lab/"
+    "proxy": "https://local.ping-devops.com:8443/secrets-vault-lab/",
+    "realMode": true
   }
 ]
