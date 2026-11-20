@@ -28,9 +28,10 @@ test('doctor passes against a running app, one line per check, and exits 0', asy
 });
 
 test('doctor exits 1 and says what to do when nothing is listening', () => {
-  const out = run('doctor.mjs', { PORT: '4779', DATA_ROOT: fs.mkdtempSync(path.join(os.tmpdir(), 'pm-doc-')) });
+  // A port OUTSIDE the 4770-4779 test-server pool: another test file may legitimately hold 4779.
+  const out = run('doctor.mjs', { PORT: '4769', DATA_ROOT: fs.mkdtempSync(path.join(os.tmpdir(), 'pm-doc-')) });
   assert.equal(out.status, 1);
-  assert.match(out.stdout, /FAIL {2}app answers \/api\/health \(nothing on port 4779; run npm start\)/);
+  assert.match(out.stdout, /FAIL {2}app answers \/api\/health \(nothing on port 4769; run npm start\)/);
 });
 
 test('doctor exits 1 when the mode is not valid', () => {
