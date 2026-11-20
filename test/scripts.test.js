@@ -19,7 +19,7 @@ test('doctor passes against a running app, one line per check, and exits 0', asy
     const out = run('doctor.mjs', { PORT: String(app.port), DATA_ROOT: app.dataRoot, WORKSPACE_ID: app.workspace });
     assert.equal(out.status, 0, out.stdout + out.stderr);
     const lines = out.stdout.split('\n').filter((l) => /^(OK|FAIL)/.test(l));
-    assert.ok(lines.length >= 9);
+    assert.ok(lines.length >= 8);
     assert.ok(lines.every((l) => l.startsWith('OK')));
     assert.match(out.stdout, /app answers \/api\/health/);
   } finally {

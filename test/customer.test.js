@@ -16,7 +16,7 @@ test('a missing customer config gives the safe defaults, and the title ends in L
 
 test('the example file loads, only known keys are used, and over-long text is cut', () => {
   const example = loadCustomerConfig(path.join(ROOT, 'customer.config.example.json'));
-  assert.equal(example.branding.productName, 'Privilege Map LAB');
+  assert.equal(example.branding.productName, 'Privilege Shelf LAB');
   assert.equal(example.vocabulary.agent, 'the claims agent');
   const junk = normalizeCustomer({ branding: { productName: 42, extra: 'x', tagline: 'y'.repeat(500) }, vocabulary: { Bad: 'x', ok: '', agent: 'a clerk' }, other: true });
   assert.equal(junk.branding.productName, DEFAULT_CUSTOMER.branding.productName);

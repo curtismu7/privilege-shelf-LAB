@@ -1,7 +1,6 @@
 {
   "id": "S02",
   "title": "A call walks the gateway checks",
-  "diagram": "nhi-checks",
   "goal": "{{cast.agent}} makes a call and it should reach {{cast.app}} only if every check passes.",
   "obstacle": "Without a fixed order of checks, a refusal could come from any layer and nobody could say which.",
   "control": "{{cast.gateway}} runs the same five checks in the same order on every call.",
@@ -24,5 +23,10 @@
       "tell": "{{cast.gateway}} lets the guardrail on {{cast.key}} screen the text, and a call that passes reaches {{cast.app}}.",
       "say": "A block returns 400 content_blocked. The guardrail is set on the key, not on the app."
     }
-  ]
+  ],
+  "lab": "https://local.ping-devops.com:8443/privilege-map/",
+  "link": {
+    "label": "Open the Privilege Map lab",
+    "url": "https://local.ping-devops.com:8443/privilege-map/"
+  }
 }

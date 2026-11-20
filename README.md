@@ -1,14 +1,16 @@
-# Privilege Map LAB
+# Privilege Shelf LAB
 
-ReactFlow diagrams and feature cards for PingOne Privilege's Federated Identity (formerly non-human identity, NHI) model: what an agent access key is made of, and the five checks the gateway runs on every call.
+An index of the whole PingOne Privilege standalone family on one page: every Privilege-family lab with a one-line what-it-does, its catalog id and a link that opens it through the shared lab proxy. Also carries the 21 Privilege feature cards (what each feature is, how it works and what was not verified) and three presenter stories. It is a fork of privilege-map-LAB; the diagrams were replaced by the lab index.
+
+Fork of: privilege-map-LAB (what changed: the ReactFlow map page is gone; the shelf index page was added; the diagrams directory was removed).
 
 Tier: Demo
-Repo: https://github.com/curtismu7/privilege-map-LAB
+Repo: https://github.com/curtismu7/privilege-shelf-LAB
 Catalog: none yet. No catalog row matches this app, so `docs/shelf-entry.json` has no `catalogId`. `content-pack.json` carries the provisional id D101 because the pack schema requires one; the owner assigns the real one.
 
 ## What is simulated
 
-**Mock mode (default, and the only mode).** Everything runs offline inside this app. The diagrams, 21 feature cards, stories and talk track are content drawn from Ping documentation and our own tests; there is no Privilege gateway, no tenant, no token and no sign-in behind them. Cards list what was not verified. The banner on every page says this, including in presenter mode.
+**Mock mode (default, and the only mode).** Everything runs offline inside this app. The lab index, 21 feature cards, stories and talk track are content drawn from the shelf registry, Ping documentation and our own tests; there is no Privilege gateway, no tenant, no token and no sign-in behind them. Cards list what was not verified. The banner on every page says this, including in presenter mode.
 
 **Live mode.** This app has none. It has no tenant or provider to connect to. The Live button is shown on every page so the mode is always visible, but it is disabled, and the server refuses `MODE=live` and a live request.
 
@@ -17,14 +19,14 @@ Catalog: none yet. No catalog row matches this app, so `docs/shelf-entry.json` h
 Prerequisites: Node 26 or newer. Docker only if you use the Docker form.
 
 ```sh
-git clone https://github.com/curtismu7/privilege-map-LAB.git
-cd privilege-map-LAB
+git clone https://github.com/curtismu7/privilege-shelf-LAB.git
+cd privilege-shelf-LAB
 npm ci
 npm run build
 npm start
 ```
 
-Open http://127.0.0.1:5300 . With no setup at all, mock mode shows every page: the Map (two diagrams), the five feature pages, Stories, and Presenter mode.
+Open http://127.0.0.1:7828 . With no setup at all, mock mode shows every page: Standalone labs (the index), Feature guide, Stories, and Presenter mode.
 
 For development, `npm run dev` serves the same page on the same port with hot reload.
 
@@ -42,15 +44,15 @@ Other environment variables: `PORT`, `BIND_HOST` (Docker only), `HOST_PORT` (Doc
 
 ## Ports, and what to do if the port is taken
 
-Ports: privilege-map listens on 5300 (set with PORT, default 5300). Docker publishes 5301 (set with HOST_PORT, default 5301). Tests use 4770-4779.
-Port range for this app: 5300-5301.
+Ports: privilege-shelf listens on 7828 (set with PORT, default 7828). Docker publishes 7828 (HOST_PORT, default 7828) (set with HOST_PORT, default 7828). Tests use 4770-4779.
+Port range for this app: 7828.
 
 If the port is taken:
 1. Find what is using it:
-   lsof -iTCP:5300 -sTCP:LISTEN -n -P
+   lsof -iTCP:7828 -sTCP:LISTEN -n -P
 2. If it is an old copy of this app, stop that process: kill <PID>.
 3. If it is something else, stop it, or start this app on another port:
-   PORT=5302 npm start
+   PORT=7829 npm start
 4. Do not use 8080, 5173, 3000, 4000, 4400, 4510, 4600-4601, 18080, 19080 or 19090.
 
 ## Mock and live modes
@@ -63,12 +65,12 @@ The Live button is disabled and its tooltip says why. `POST /api/mode` with `liv
 
 **Stories and customer config.** Stories in `content/stories/` use `{{cast.<role>}}` tokens, resolved from `content/cast.json`; an undefined token fails the tests and the server's health. Copy `customer.config.example.json` to `customer.config.json` to set the product name, tagline, footer and to rename cast roles (`vocabulary`) for a room. No real customer name is shipped.
 
-**Diagrams.** `diagrams/nhi-entity.json` and `diagrams/nhi-checks.json` are `diagram-studio/1` data, the format Diagram Studio edits and exports. The page builds the ReactFlow graph from the data: drag any box, Simulate walks the steps, Prev and Next step by hand, the speed control sets the pace, and Reset stops the walk and puts every box back.
+**The lab index.** `src/data/standaloneApps.json` is a snapshot of the demo-shelf registry, filtered to the labs tagged `pingone-privilege`, each with its open URL through the shared lab proxy (`https://local.ping-devops.com:8443/<lab>/`). The page never fetches anything: links open in a new tab and the search filters the snapshot in the browser. Regenerate the snapshot from the registry when labs are added, then commit it.
 
 ## Health, doctor and reset
 
 ```sh
-npm run doctor   # Node, mode, content, diagrams, data folder, netguard self-test, built page, running app
+npm run doctor   # Node, mode, content, data folder, netguard self-test, built page, running app
 npm run reset    # clears this workspace's run state (trace, presenter place); saved settings are kept
 ```
 
@@ -80,7 +82,7 @@ npm run reset    # clears this workspace's run state (trace, presenter place); s
 docker compose up --build -d
 ```
 
-This publishes 127.0.0.1:5301 only, runs as a non-root user on a read-only file system, and starts in mock mode. Use `HOST_PORT=<port>` to publish elsewhere. Run state lives in a temporary folder and is lost when the container is recreated.
+This publishes 127.0.0.1:7828 only, runs as a non-root user on a read-only file system, and starts in mock mode. Use `HOST_PORT=<port>` to publish elsewhere. Run state lives in a temporary folder and is lost when the container is recreated.
 
 ## Tests
 
@@ -96,7 +98,7 @@ A good run on Node 26 is **89 tests, 89 pass, 0 fail**. The suite builds the pag
 - **The page says the server did not answer, or `/api/health` says `needs-setup`.** Run `npm run build` once; the server serves the built page from `dist/`.
 - **`npm run doctor` fails on "app answers /api/health".** Start the app with `npm start` first; doctor checks the running app on `PORT`.
 - **The server exits with `MODE=live is refused`.** This app has no live mode. Remove `MODE=live` from your environment or the shared settings file.
-- **`/api/health` says `broken`.** A story, the talk track or a diagram is invalid, for example an undefined cast token. The server prints the problem when it starts.
+- **`/api/health` says `broken`.** A story or the talk track is invalid, for example an undefined cast token. The server prints the problem when it starts.
 
 ## Ownership
 

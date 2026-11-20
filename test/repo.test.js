@@ -4,7 +4,6 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DEMO_DIAGRAMS } from '../lib/diagrams.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
@@ -23,6 +22,19 @@ function walk(dir, out = []) {
 const files = walk(ROOT);
 const textFiles = files.filter((f) => /\.(m?js|jsx|json|md|ya?ml|html|css|sh)$/.test(f) && !f.endsWith('package-lock.json'));
 
+test('the shelf data lists only labs and links only through the shared proxy', () => {
+  const apps = json('web/src/data/standaloneApps.json');
+  assert.ok(apps.length >= 35, `${apps.length} labs listed`);
+  const ids = apps.map((a) => a.id);
+  assert.equal(new Set(ids).size, ids.length, 'lab ids are unique');
+  assert.equal(ids.includes('privilege-shelf'), false, 'the shelf does not list itself');
+  for (const a of apps) {
+    assert.ok(a.name && a.description, `${a.id} has name and description`);
+    assert.ok(!a.proxy || a.proxy.startsWith('https://local.ping-devops.com:8443/'), `${a.id} proxy host`);
+    if (a.repo) assert.match(a.repo, /^https:\/\/github\.com\//, `${a.id} repo`);
+  }
+});
+
 test('Docker publishes 127.0.0.1 only', () => {
   const compose = read('docker-compose.yml');
   const ports = [...compose.matchAll(/^\s*-\s*"?([^"\n]*:\d+(?::\d+)?)"?\s*$/gm)].map((m) => m[1]);
@@ -33,7 +45,7 @@ test('Docker publishes 127.0.0.1 only', () => {
 
 test('the shelf entry has a catalog-free id, kind, health path and a relative composeFile that exists', () => {
   const s = json('docs/shelf-entry.json');
-  assert.equal(s.id, 'privilege-map');
+  assert.equal(s.id, 'privilege-shelf');
   assert.equal(s.kind, 'Demo');
   assert.equal(s.healthPath, '/api/health');
   assert.ok(!path.isAbsolute(s.composeFile) && !s.composeFile.includes('..'));
@@ -42,7 +54,7 @@ test('the shelf entry has a catalog-free id, kind, health path and a relative co
   assert.equal(Object.hasOwn(s, 'catalogId'), false, 'no catalog row matches this app');
 });
 
-test('the content pack is consistent with the stories, diagrams and glossary', () => {
+test('the content pack is consistent with the stories and glossary', () => {
   const pack = json('content-pack.json');
   assert.equal(pack.schema, 'demo-content-pack/1');
   assert.equal(pack.demo.id, json('docs/shelf-entry.json').id);
@@ -53,7 +65,6 @@ test('the content pack is consistent with the stories, diagrams and glossary', (
   const storyIds = fs.readdirSync(path.join(ROOT, 'content', 'stories')).map((f) => f.slice(0, 3));
   assert.deepEqual(pack.stories.map((s) => s.id), storyIds);
   for (const c of pack.cards) if (c.story) assert.ok(storyIds.includes(c.story));
-  assert.deepEqual(pack.diagrams.map((d) => d.id), DEMO_DIAGRAMS);
   assert.doesNotMatch(JSON.stringify(pack), /eyJ[A-Za-z0-9_-]{10,}\./);
 });
 
@@ -80,12 +91,12 @@ test('the README follows the standard: title ends in LAB, tier, repo, and the re
   const r = read('README.md');
   assert.match(r.split('\n')[0], /^# .* LAB$/);
   assert.match(r, /^Tier: Demo$/m);
-  assert.match(r, /^Repo: https:\/\/github\.com\/curtismu7\/privilege-map-LAB$/m);
+  assert.match(r, /^Repo: https:\/\/github\.com\/curtismu7\/privilege-shelf-LAB$/m);
   for (const h of ['What is simulated', 'Run from a clone', 'Settings file', 'Ports, and what to do if the port is taken', 'Mock and live modes', 'Health, doctor and reset', 'Docker (optional)', 'Tests', 'Troubleshooting', 'Ownership']) {
     assert.match(r, new RegExp(`^## ${h.replace(/[()]/g, '\\$&')}$`, 'm'), h);
   }
-  assert.match(r, /lsof -iTCP:5300 -sTCP:LISTEN -n -P/);
-  assert.match(r, /PORT=5302 npm start/);
+  assert.match(r, /lsof -iTCP:7828 -sTCP:LISTEN -n -P/);
+  assert.match(r, /PORT=7829 npm start/);
 });
 
 test('no machine paths, outside links or EC key generation in the source', () => {
@@ -94,7 +105,8 @@ test('no machine paths, outside links or EC key generation in the source', () =>
     if (rel.startsWith('test/')) continue; // tests name the patterns they forbid
     const text = fs.readFileSync(f, 'utf8');
     assert.doesNotMatch(text, /\/Users\/|\/home\/[a-z]/, `${rel} has a machine path`);
-    if (/^(src|index\.html)/.test(rel)) assert.doesNotMatch(text, /https?:\/\/(?!127\.0\.0\.1|localhost)/, `${rel} links outside this machine`);
+    // standaloneApps.json and the story content are an index BY DESIGN: their outbound URLs are the product.
+    if (/^(src|index\.html)/.test(rel) && !/standaloneApps\.json$/.test(rel)) assert.doesNotMatch(text, /https?:\/\/(?!127\.0\.0\.1|localhost)/, `${rel} links outside this machine`);
     if (/\.(m?js|jsx)$/.test(rel) && !rel.startsWith('test/')) assert.doesNotMatch(text, /generateKeyPair(Sync)?\(\s*['"]ec['"]/, rel);
   }
 });
@@ -109,7 +121,7 @@ test('no licence file, key or env file is part of the repo', () => {
 });
 
 test('grids that auto-fit have a real minimum column width, so cards wrap at 375px instead of squeezing', () => {
-  const css = read('src/styles.css');
+  const css = read('web/src/styles.css');
   assert.doesNotMatch(css, /auto-(fit|fill),\s*minmax\(0[a-z%]*,/, 'a zero minimum never wraps');
   assert.match(css, /\.story-list\s*\{[^}]*minmax\(min\(100%,\s*\d+px\),\s*1fr\)/);
 });

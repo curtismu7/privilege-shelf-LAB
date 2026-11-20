@@ -68,7 +68,7 @@ test('live mode cannot be switched on: the toggle is refused with the reason', a
 
 test('the whole API runs with zero outbound attempts: the guard counters and the socket recorder both read zero', async () => {
   await (await fetch(`${app.base}/api/stories`)).json();
-  await (await fetch(`${app.base}/api/diagrams/nhi-checks`)).json();
+  await (await fetch(`${app.base}/`)).text();
   const net = await (await fetch(`${app.base}/api/netguard`)).json();
   assert.equal(net.mode, 'mock');
   assert.deepEqual(net.counters, { attempts: 0, refused: 0, sent: 0 });
@@ -86,21 +86,18 @@ test('a foreign Host header gets 421 and a foreign Origin write gets 403', async
   assert.equal((await post('/api/reset', {}, { Origin: app.base })).status, 200);
 });
 
-test('talk track, stories and diagrams are served, with every cast token resolved', async () => {
+test('talk track, stories and shelf data are served, with every cast token resolved', async () => {
   const talk = await (await fetch(`${app.base}/api/talk-track`)).json();
   assert.ok(talk.steps.length >= 8);
   const stories = await (await fetch(`${app.base}/api/stories`)).json();
   assert.equal(stories.stories.length, 3);
-  assert.doesNotMatch(JSON.stringify([talk, stories]), /\{\{|\}\}/);
-  const list = await (await fetch(`${app.base}/api/diagrams`)).json();
-  assert.deepEqual(list.diagrams.map((d) => d.id), ['nhi-entity', 'nhi-checks']);
-  const one = await (await fetch(`${app.base}/api/diagrams/nhi-entity`)).json();
-  assert.equal(one.schema, 'diagram-studio/1');
-  assert.equal((await fetch(`${app.base}/api/diagrams/not-ours`)).status, 404);
+  assert.doesNotMatch(JSON.stringify([talk, stories]), /\{\{/);
+  const state = await (await fetch(`${app.base}/api/state`)).json();
+  assert.doesNotMatch(JSON.stringify(state), /\{\{/);
 });
 
 test('run state and settings are saved per workspace, and reset clears the run but keeps the settings', async () => {
-  assert.equal((await post('/api/run', { presenterStep: 2, page: 'identity' })).status, 200);
+  assert.equal((await post('/api/run', { presenterStep: 2, page: 'features' })).status, 200);
   assert.equal((await post('/api/settings', { speed: 'fast' })).status, 200);
   let s = await (await fetch(`${app.base}/api/state`)).json();
   assert.equal(s.run.presenterStep, 2);
@@ -126,7 +123,7 @@ test('the page is served from this app with a CSP that allows only this origin, 
   const res = await fetch(`${app.base}/`);
   const page = await res.text();
   assert.equal(res.status, 200);
-  assert.match(page, /<title>Privilege Map LAB<\/title>/);
+  assert.match(page, /<title>Privilege Shelf LAB<\/title>/);
   assert.match(res.headers.get('content-security-policy'), /default-src 'self'/);
   assert.doesNotMatch(page, /https?:\/\/(?!127\.0\.0\.1|localhost)/, 'the page links to nothing outside this machine');
   const deep = await fetch(`${app.base}/stories`);

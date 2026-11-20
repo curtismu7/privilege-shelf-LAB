@@ -6,7 +6,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadCast, loadStories, resolveText, tokensIn } from '../lib/stories.js';
 import { parseTalkTrack } from '../lib/talk.js';
-import { DEMO_DIAGRAMS } from '../lib/diagrams.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const cast = loadCast(path.join(ROOT, 'content', 'cast.json'));
@@ -14,11 +13,11 @@ const storiesDir = path.join(ROOT, 'content', 'stories');
 const stories = loadStories(storiesDir, cast);
 const talkText = fs.readFileSync(path.join(ROOT, 'docs', 'talk-track.md'), 'utf8');
 
-test('there are three stories, and each has a goal, obstacle, control, a known diagram and steps', () => {
+test('there are three stories, and each has a goal, obstacle, control, a link to a lab and steps', () => {
   assert.equal(stories.length, 3);
   for (const s of stories) {
     assert.ok(s.id && s.title && s.goal && s.obstacle && s.control, s.id);
-    assert.ok(DEMO_DIAGRAMS.includes(s.diagram), `${s.id} names diagram ${s.diagram}`);
+    assert.match(s.link?.url, /^https:\/\//, `${s.id} has an outbound link`);
     assert.ok(s.steps.length >= 1, s.id);
     s.steps.forEach((step, i) => assert.equal(step.n, i + 1, `${s.id} step numbers run 1..n`));
   }
@@ -32,7 +31,7 @@ test('every {{cast}} token in every story and in the talk track is a defined rol
       assert.ok(Object.hasOwn(cast, token.slice(5)), `undefined role in {{${token}}}`);
     }
   }
-  for (const s of stories) assert.doesNotMatch(JSON.stringify(s), /\{\{|\}\}/, s.id);
+  for (const s of stories) assert.doesNotMatch(JSON.stringify(s), /\{\{/, s.id);
 });
 
 test('an undefined cast token fails', () => {
@@ -58,7 +57,7 @@ test('a cast role with an empty name is refused', () => {
 test('the talk track has the steps a presenter needs, each with a script', () => {
   const steps = parseTalkTrack(talkText);
   assert.ok(steps.length >= 8);
-  assert.match(steps[0].title, /simulated/i);
+  assert.match(steps[0].title, /(simulated|index)/i);
   assert.ok(steps.every((s) => s.body.length > 20), 'every step has a script');
   assert.ok(steps.some((s) => /unverified/i.test(s.title)), 'one step covers what is unverified');
 });

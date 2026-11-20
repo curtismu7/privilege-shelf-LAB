@@ -1,24 +1,23 @@
 {
   "schema": "demo-content-pack/1",
-  "id": "privilege-map",
-  "title": "Privilege Map LAB",
+  "id": "privilege-shelf",
+  "title": "Privilege Shelf LAB",
   "version": "1.0.0",
   "source": {
-    "repo": "curtismu7/privilege-map-LAB",
-    "commit": "0519e07",
-    "generated": "2026-10-31"
+    "repo": "curtismu7/privilege-shelf-LAB",
+    "commit": "initial",
+    "generated": "2026-11-20"
   },
   "demo": {
-    "id": "privilege-map",
-    "name": "Privilege Map LAB",
-    "catalog": "D101",
-    "baseUrl": "http://127.0.0.1:5301",
+    "id": "privilege-shelf",
+    "name": "Privilege Shelf LAB",
+    "catalog": "D000",
+    "baseUrl": "http://127.0.0.1:7828",
     "doctor": "/api/health",
     "tags": [
       "privilege",
-      "nhi",
-      "agent",
-      "gateway",
+      "shelf",
+      "index",
       "mock"
     ]
   },
@@ -84,10 +83,25 @@
   ],
   "cards": [
     {
-      "id": "map",
-      "label": "The identity map and the gateway checks",
-      "description": "Two ReactFlow diagrams: what an agent key is made of, and the five checks on every call. Drag, Simulate, Reset.",
+      "id": "labs",
+      "label": "All 40 Privilege labs",
+      "description": "Every Privilege-family standalone lab with a one-line what-it-does, its catalog id and its open-through-the-proxy link.",
       "group": "try-it",
+      "terms": [
+        "agent-access-key",
+        "grant",
+        "scope"
+      ],
+      "action": {
+        "type": "route",
+        "href": "/#/shelf"
+      }
+    },
+    {
+      "id": "features",
+      "label": "Privilege feature guide",
+      "description": "What each Privilege feature is, how it works and what was not verified, from the same content as the Privilege Map.",
+      "group": "learn",
       "terms": [
         "nhi",
         "agent-access-key",
@@ -95,124 +109,22 @@
       ],
       "action": {
         "type": "route",
-        "href": "/#/map"
+        "href": "/#/features"
       }
     },
     {
-      "id": "identity",
-      "label": "Identity features",
-      "description": "Agent Registry, the desktop device-bound identity and CIMD client documents.",
-      "group": "concept",
+      "id": "stories",
+      "label": "Three presenter stories",
+      "description": "An agent gets its own identity, a call walks the checks, and a refusal tells you where to look.",
+      "group": "present",
       "terms": [
-        "custodian",
-        "agent-access-key"
-      ],
-      "action": {
-        "type": "route",
-        "href": "/#/identity"
-      }
-    },
-    {
-      "id": "llm",
-      "label": "LLM features",
-      "description": "Virtual keys, model allowlists, provider routes and attributable denial.",
-      "group": "concept",
-      "terms": [
-        "scope",
-        "agent-access-key"
-      ],
-      "action": {
-        "type": "route",
-        "href": "/#/llm"
-      }
-    },
-    {
-      "id": "mcp",
-      "label": "MCP and A2A features",
-      "description": "Policy union, tool-call policy, discovery gating, aggregate apps and A2A through the gateway.",
-      "group": "concept",
-      "terms": [
-        "grant",
-        "scope"
-      ],
-      "action": {
-        "type": "route",
-        "href": "/#/mcp"
-      }
-    },
-    {
-      "id": "oversight",
-      "label": "Oversight features",
-      "description": "AI Guard, Cedar per-call policy, human approvals, the attack lab and audit evidence.",
-      "group": "concept",
-      "terms": [
-        "ai-guard"
-      ],
-      "action": {
-        "type": "route",
-        "href": "/#/oversight"
-      }
-    },
-    {
-      "id": "platform",
-      "label": "Platform features",
-      "description": "Secrets Hub connections and sensor enforcement on host workloads.",
-      "group": "reference",
-      "action": {
-        "type": "route",
-        "href": "/#/platform"
-      }
-    },
-    {
-      "id": "story-identity",
-      "label": "Story: an agent gets its own identity",
-      "group": "try-it",
-      "story": "S01",
-      "terms": [
+        "agent-access-key",
         "custodian"
       ],
       "action": {
         "type": "route",
         "href": "/#/stories"
       }
-    },
-    {
-      "id": "story-checks",
-      "label": "Story: a call walks the gateway checks",
-      "group": "try-it",
-      "story": "S02",
-      "terms": [
-        "gateway-checks"
-      ],
-      "action": {
-        "type": "route",
-        "href": "/#/stories"
-      }
-    },
-    {
-      "id": "story-refusal",
-      "label": "Story: a refusal tells you where to look",
-      "group": "try-it",
-      "story": "S03",
-      "terms": [
-        "gateway-checks"
-      ],
-      "action": {
-        "type": "route",
-        "href": "/#/stories"
-      }
-    }
-  ],
-  "diagrams": [
-    {
-      "id": "nhi-entity",
-      "label": "What an agent identity is made of",
-      "href": "/#/map?diagram=nhi-entity"
-    },
-    {
-      "id": "nhi-checks",
-      "label": "What the gateway checks on each call",
-      "href": "/#/map?diagram=nhi-checks"
     }
   ],
   "stories": [

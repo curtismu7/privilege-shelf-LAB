@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Checks that this app is ready and running. Prints one line per check. Exit 1 if any check fails.
-// Offline checks first (Node, content, diagrams, data folder, settings file), then the running app's /api/health.
+// Offline checks first (Node, content, data folder, settings file), then the running app's /api/health.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -8,14 +8,13 @@ import { loadSharedSettings } from '../lib/settings.js';
 import { loadCustomerConfig } from '../lib/customer.js';
 import { loadCast, loadStories, resolveDeep } from '../lib/stories.js';
 import { parseTalkTrack } from '../lib/talk.js';
-import { listDiagrams } from '../lib/diagrams.js';
 import { netguardSelfTest } from '../lib/netguard.js';
 import { resolveMode } from '../lib/mode.js';
 import { resolveWorkspace, workspaceDir } from '../lib/workspace.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const shared = loadSharedSettings();
-const port = process.env.PORT || '5300';
+const port = process.env.PORT || '7828';
 let failed = false;
 const line = (ok, label, detail = '') => {
   if (!ok) failed = true;
@@ -42,12 +41,6 @@ attempt('customer config, cast, stories and talk track resolve', () => {
   const stories = loadStories(path.join(ROOT, 'content', 'stories'), cast);
   const steps = resolveDeep(parseTalkTrack(fs.readFileSync(path.join(ROOT, 'docs', 'talk-track.md'), 'utf8')), cast);
   return `${stories.length} stories, ${steps.length} talk-track steps`;
-});
-attempt('diagrams load and validate', () => {
-  const list = listDiagrams();
-  const bad = list.filter((d) => !d.available);
-  if (bad.length) throw new Error(bad[0].error);
-  return list.map((d) => d.id).join(', ');
 });
 attempt('workspace data folder is writable', () => {
   const dir = workspaceDir(process.env.DATA_ROOT || ROOT, resolveWorkspace(process.env.WORKSPACE_ID));

@@ -1,9 +1,9 @@
 {
-  "id": "privilege-map",
-  "name": "Privilege Map LAB",
+  "id": "privilege-shelf",
+  "name": "Privilege Shelf LAB",
   "kind": "Demo",
-  "description": "The PingOne Privilege Federated Identity model as ReactFlow diagrams you can drag and walk through, plus 21 Privilege feature cards, stories and a talk track. Mock only.",
-  "url": "http://127.0.0.1:5301",
+  "description": "The Privilege family on one page: all 40 standalone labs with what each does and where to open it, plus the Privilege feature guide and three stories. Mock only.",
+  "url": "http://127.0.0.1:7828",
   "healthPath": "/api/health",
   "composeFile": "docker-compose.yml",
   "composeOverlays": [],

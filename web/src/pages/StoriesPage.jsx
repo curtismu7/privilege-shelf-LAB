@@ -15,7 +15,7 @@ export default function StoriesPage() {
   return (
     <section aria-label="Stories">
       <h2>Stories</h2>
-      <p className="page-purpose">Three short walk-throughs to tell around the diagrams. The names come from the cast, which customer.config can rename.</p>
+      <p className="page-purpose">Three short walk-throughs for presenting the Privilege model. The names come from the cast, which customer.config can rename.</p>
       <div className="story-list">
         {stories.map((s) => (
           <article key={s.id} className="story" aria-labelledby={`story-${s.id}`}>
@@ -40,8 +40,8 @@ export default function StoriesPage() {
                 </li>
               ))}
             </ol>
-            <a className="story__link" href={`#/map?diagram=${s.diagram}`}>
-              Open the diagram
+            <a className="story__link" href={s.link.url} target="_blank" rel="noopener noreferrer">
+              {s.link.label} <span aria-hidden="true">&#8599;</span>
             </a>
           </article>
         ))}

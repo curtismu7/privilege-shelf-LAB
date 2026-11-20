@@ -53,11 +53,10 @@ function FeatureDetail({ feature }) {
   );
 }
 
-export default function FeaturePage({ pageId }) {
-  const page = PAGES.find((p) => p.id === pageId);
-  const list = features.filter((f) => f.page === pageId);
-  const [selected, setSelected] = useState(list[0]?.id);
-  const current = list.find((f) => f.id === selected) || list[0];
+export default function FeaturePage() {
+  const [selected, setSelected] = useState(features[0]?.id);
+  const current = features.find((f) => f.id === selected) || features[0];
+  const page = PAGES.find((p) => p.id === 'features');
   return (
     <section aria-label={page.title}>
       <h2>{page.title}</h2>
@@ -66,8 +65,8 @@ export default function FeaturePage({ pageId }) {
         Draft content compiled from Ping documentation and our own tests. Open &ldquo;Sources and what is not verified&rdquo; on a feature before presenting it.
       </p>
       <div className="split">
-        <nav className="feature-list" aria-label={`${page.title} features`}>
-          {list.map((f) => (
+        <nav className="feature-list" aria-label="Privilege features">
+          {features.map((f) => (
             <button key={f.id} type="button" aria-pressed={current.id === f.id} onClick={() => setSelected(f.id)}>
               {f.name}
             </button>

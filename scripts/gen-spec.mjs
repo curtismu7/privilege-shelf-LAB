@@ -1,12 +1,12 @@
-// Regenerates docs/standard-ui.md from src/data/features.json so the spec and the UI cannot drift.
+// Regenerates docs/standard-ui.md from web/src/data/features.json so the spec and the UI cannot drift.
 import { readFileSync, writeFileSync } from 'node:fs';
-import { PAGES } from '../src/data/pages.js';
+import { PAGES } from '../web/src/data/pages.js';
 
-const features = JSON.parse(readFileSync(new URL('../src/data/features.json', import.meta.url), 'utf8'));
+const features = JSON.parse(readFileSync(new URL('../web/web/src/data/features.json', import.meta.url), 'utf8'));
 const lines = [];
 lines.push('# Privilege Map LAB: standard UI specification', '');
 lines.push('Audience: Solutions Engineers and the engineers building the Privilege Map LAB.');
-lines.push('Generated from `src/data/features.json` by `npm run spec`. Edit the data, not this file.', '');
+lines.push('Generated from `web/src/data/features.json` by `npm run spec`. Edit the data, not this file.', '');
 lines.push('## Pages', '');
 for (const p of PAGES) {
   const list = features.filter((f) => f.page === p.id).map((f) => f.name).join('; ');

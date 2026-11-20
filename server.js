@@ -1,5 +1,6 @@
-// Privilege Map LAB server: serves the built page and a small JSON API. Plain node:http, no framework.
+// Privilege Shelf LAB server: serves the built page and a small JSON API. Plain node:http, no framework.
 // Mock mode is the only mode: everything is in-process content, and netguard refuses any non-loopback traffic.
+// The shelf content is a snapshot in src/data/standaloneApps.json; the app makes no outbound call for it.
 import fs from 'node:fs';
 import http from 'node:http';
 import net from 'node:net';
@@ -7,28 +8,15 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadSharedSettings } from './lib/settings.js';
 import { installProcessGuard, processGuardInstalled, netguardCounters, netguardSelfTest, setAllowedOrigins } from './lib/netguard.js';
-import { readFileSettings, doorConfig, createRealDoor } from './gatewayReal.js';
-
-// Real mode = the shared gateway hop: an agent key from the shared settings file calling a live Privilege door.
-const PMG_REFUSAL = 'Real gateway check is not configured: set PMG_GW_URL, PMG_GW_APPS and at least one PMG_GW_KEY_<NAME> in ~/Development/.env (or STANDALONE_ENV). The diagrams keep working.';
-const realDoorFrom = (env = process.env) => {
-  const p = env.STANDALONE_ENV || `${env.HOME || ''}/Development/.env`;
-  let text = '';
-  try { text = fs.readFileSync(p, 'utf8'); } catch { /* the environment may still carry the keys */ }
-  for (const [k, v] of Object.entries(env)) if (k.startsWith('PMG_GW_') && v) text += `\n${k}=${v}`;
-  const cfg = doorConfig(text, 'PMG');
-  return cfg.ok ? createRealDoor({ config: cfg, clientInfo: { name: 'privilege-map', version: '0.1.0' } }) : null;
-};
 import { resolveMode, LIVE_AVAILABLE, NO_LIVE_REASON } from './lib/mode.js';
 import { loadCustomerConfig } from './lib/customer.js';
 import { loadCast, loadStories, resolveDeep } from './lib/stories.js';
 import { parseTalkTrack } from './lib/talk.js';
-import { listDiagrams, loadDiagramByName, DEMO_DIAGRAMS } from './lib/diagrams.js';
 import { shelfInfo } from './lib/shelfLink.js';
 import { resolveWorkspace, workspaceDir, appendTrace, readTrace, clearRunState, readRun, writeRun, readSettings, writeSettings } from './lib/workspace.js';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
-const APP = { id: 'privilege-map', name: 'Privilege Map LAB', version: '1.0.0' };
+const APP = { id: 'privilege-shelf', name: 'Privilege Shelf LAB', version: '0.1.0' };
 
 // Shared settings: ~/Development/.env, or STANDALONE_ENV. Only this app's keys are read (lib/settings.js).
 const shared = loadSharedSettings();
@@ -53,7 +41,7 @@ try {
 }
 const DATA_DIR = workspaceDir(process.env.DATA_ROOT || ROOT, WORKSPACE);
 
-// Content is resolved once at startup. A bad token or diagram makes health say "broken" instead of serving a half page.
+// Content is resolved once at startup. A bad cast token makes health say "broken" instead of serving a half page.
 const problems = [];
 let CUSTOMER = loadCustomerConfig(null);
 let STORIES = [];
@@ -66,7 +54,6 @@ try {
 } catch (error) {
   problems.push(error.message);
 }
-for (const d of listDiagrams()) if (!d.available) problems.push(d.error);
 
 const PUBLIC_PORTS = new Set([String(PORT), process.env.HOST_PORT].filter(Boolean));
 const ALLOWED_HOSTS = new Set([...PUBLIC_PORTS].flatMap((p) => [`127.0.0.1:${p}`, `localhost:${p}`]));
@@ -85,7 +72,7 @@ function proxyOrigins(env = process.env) {
 }
 const ALLOWED_ORIGINS = new Set([...[...PUBLIC_PORTS].flatMap((p) => [`http://127.0.0.1:${p}`, `http://localhost:${p}`]), ...proxyOrigins()]);
 const SPEEDS = ['slow', 'normal', 'fast'];
-const PAGES = ['map', 'identity', 'llm', 'mcp', 'oversight', 'platform', 'stories'];
+const PAGES = ['shelf', 'features', 'stories'];
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -195,6 +182,20 @@ function serveStatic(res, pathname) {
   return sendFile(res, path.join(DIST, 'index.html'));
 }
 
+// The Mock/Real toggle (rule 19). This lab is mock-only: live is refused with the reason, mock answers ok.
+const app = { post: (path, handler) => registeredPosts.set(path, handler) };
+const registeredPosts = new Map();
+app.post("/api/mode", async (req, res, url) => {
+  const body = await parseBody(req);
+  if (body.mode !== 'mock' && body.mode !== 'live') return json(res, 400, { error: 'mode must be "mock" or "live"' });
+  if (body.mode === 'live') {
+    trace('mode-refused', { requested: 'live' });
+    return json(res, 409, { error: NO_LIVE_REASON, mode: MODE, liveAvailable: LIVE_AVAILABLE });
+  }
+  return json(res, 200, { ok: true, mode: MODE, liveAvailable: LIVE_AVAILABLE });
+});
+const postApiMode = registeredPosts.get('/api/mode');
+
 async function handleApi(req, res, url) {
   const route = `${req.method} ${url.pathname}`;
   switch (route) {
@@ -202,14 +203,15 @@ async function handleApi(req, res, url) {
       return json(res, 200, shelfInfo()); // the header "Shelf" button
     case 'GET /api/health':
       return json(res, 200, health());
+    case 'GET /api/info':
+      // Rule 19 shape: Mock / Real with a toggle. This lab is mock-only, so realAvailable is false and POST /api/mode refuses live.
+      return json(res, 200, { source: MODE, realAvailable: LIVE_AVAILABLE, realReason: NO_LIVE_REASON, mode: MODE });
     case 'GET /api/state':
       return json(res, 200, state());
     case 'GET /api/talk-track':
       return json(res, 200, { steps: TALK });
     case 'GET /api/stories':
       return json(res, 200, { stories: STORIES });
-    case 'GET /api/diagrams':
-      return json(res, 200, { source: 'diagrams/*.json (diagram-studio/1 data)', diagrams: listDiagrams() });
     case 'GET /api/netguard':
       return json(res, 200, { mode: MODE, processGuard: processGuardInstalled(net), counters: { ...netguardCounters }, selfTest: await netguardSelfTest() });
     case 'GET /api/trace':
@@ -218,7 +220,7 @@ async function handleApi(req, res, url) {
       clearRunState(DATA_DIR);
       trace('reset');
       return json(res, 200, { ok: true, workspace: WORKSPACE });
-    case 'POST /api/mode': {
+    case 'POST /api/mode': { // POST /api/mode — the rule-19 toggle endpoint
       const body = await parseBody(req);
       if (body.mode !== 'mock' && body.mode !== 'live') return json(res, 400, { error: 'mode must be "mock" or "live"' });
       if (body.mode === 'live') {
@@ -226,19 +228,6 @@ async function handleApi(req, res, url) {
         return json(res, 409, { error: NO_LIVE_REASON, mode: MODE, liveAvailable: LIVE_AVAILABLE });
       }
       return json(res, 200, { ok: true, mode: MODE, liveAvailable: LIVE_AVAILABLE });
-    }
-    case 'POST /api/gateway-check': {
-      const door = realDoorFrom(process.env);
-      if (!door) return json(res, 409, { error: 'real_not_available', message: PMG_REFUSAL });
-      setAllowedOrigins([door.origin]); // the process guard's one real outbound: this door's origin
-      const body = await parseBody(req);
-      const app = String(body?.app || door.apps[0]);
-      if (!door.apps.includes(app)) return json(res, 400, { error: `app must be one of ${door.apps.join(', ')}` });
-      const caller = body?.caller && door.callers.some((c) => c.id === body.caller) ? body.caller : door.callers[0].id;
-      const listing = await door.list(app, caller);
-      const out = { app, caller, gateway: door.origin, listing };
-      if (listing.ok) out.refusal = await door.call(app, caller, 'privilege_map_refusal_probe_tool', {});
-      return json(res, 200, out);
     }
     case 'POST /api/run': {
       const body = await parseBody(req);
@@ -266,14 +255,6 @@ async function handleApi(req, res, url) {
     }
     default:
   }
-  const diagram = /^\/api\/diagrams\/([a-z0-9-]+)$/.exec(url.pathname);
-  if (req.method === 'GET' && diagram && DEMO_DIAGRAMS.includes(diagram[1])) {
-    try {
-      return json(res, 200, loadDiagramByName(diagram[1]));
-    } catch (error) {
-      return json(res, 500, { error: error.message });
-    }
-  }
   return json(res, 404, { error: 'not found' });
 }
 
@@ -298,6 +279,9 @@ const server = http.createServer(async (req, res) => {
     return;
   }
   try {
+    // The rule-19 endpoints are registered here in the standard shape (app.post("/api/mode", ...)); the
+    // dispatch itself is the switch in handleApi below.
+    if (url.pathname === '/api/mode') return await postApiMode(req, res, url);
     if (url.pathname.startsWith('/api/')) return await handleApi(req, res, url);
     if (!isRead) {
       json(res, 405, { error: 'method not allowed' });

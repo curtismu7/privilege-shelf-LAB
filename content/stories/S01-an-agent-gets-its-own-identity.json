@@ -1,7 +1,6 @@
 {
   "id": "S01",
   "title": "An agent gets its own identity",
-  "diagram": "nhi-entity",
   "goal": "{{cast.operator}} wants {{cast.agent}} to call tools, and wants to know afterwards who was accountable.",
   "obstacle": "A shared API key says nothing about who owns it, what it may reach or when it should stop working.",
   "control": "{{cast.key}} is the agent's whole identity. It names {{cast.custodian}}, carries scopes and limits, and expires.",
@@ -24,5 +23,10 @@
       "tell": "{{cast.operator}} gives {{cast.key}} only the scopes {{cast.agent}} uses, plus rate, budget and expiry limits.",
       "say": "A key with all three scopes is one secret that reaches models, tools and agents. Give only what the agent uses."
     }
-  ]
+  ],
+  "lab": "https://local.ping-devops.com:8443/privilege-map/",
+  "link": {
+    "label": "Open the Privilege Map lab",
+    "url": "https://local.ping-devops.com:8443/privilege-map/"
+  }
 }

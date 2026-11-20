@@ -6,7 +6,6 @@ import './standalone-ui.css';
 import './top-menu/top-menu.css';
 import './components/VerifyMark.css';
 import './styles.css';
-import './diagram/diagram.css';
 import App from './App.jsx';
 
 createRoot(document.getElementById('root')).render(<App />);

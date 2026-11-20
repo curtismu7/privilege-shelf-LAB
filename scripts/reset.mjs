@@ -8,7 +8,7 @@ import { clearRunState, resolveWorkspace, workspaceDir } from '../lib/workspace.
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 loadSharedSettings();
-const port = process.env.PORT || '5300';
+const port = process.env.PORT || '7828';
 const workspace = resolveWorkspace(process.env.WORKSPACE_ID);
 try {
   const res = await fetch(`http://127.0.0.1:${port}/api/reset`, { method: 'POST', signal: AbortSignal.timeout(3000) });

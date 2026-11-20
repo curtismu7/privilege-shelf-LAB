@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import DiagramView from './diagram/DiagramView.jsx';
+import ShelfPage from './pages/ShelfPage.jsx';
 import FeaturePage from './pages/FeaturePage.jsx';
 import StoriesPage from './pages/StoriesPage.jsx';
 import TopMenu, { applyFontSize } from './top-menu/TopMenu.jsx';
@@ -9,10 +9,9 @@ import Banner from './components/Banner.jsx';
 import Presenter from './components/Presenter.jsx';
 import { PAGES } from './data/pages.js';
 import { getJson, postJson } from './api.js';
-import PrivilegeCheck from "./privilege-check/PrivilegeCheck";
 
-const NAV = [{ id: 'map', title: 'Map' }, ...PAGES, { id: 'stories', title: 'Stories' }];
-const THEME_KEY = 'privmap.theme';
+const NAV = PAGES;
+const THEME_KEY = 'privshelf.theme';
 const THEMES = [['auto', 'Auto'], ['light', 'Light'], ['dark', 'Dark']];
 
 function initialTheme() {
@@ -20,21 +19,10 @@ function initialTheme() {
   return 'auto';
 }
 
-// Routes are hash routes: #/identity, or #/map?diagram=nhi-checks.
+// Routes are hash routes: #/shelf, #/features, #/stories.
 function currentRoute() {
-  const [path, query = ''] = window.location.hash.replace(/^#\/?/, '').split('?');
-  const known = NAV.some((n) => n.id === path);
-  return { id: known ? path : 'map', diagram: new URLSearchParams(query).get('diagram') || '' };
-}
-
-function MapPage({ diagram, speed, onSpeed }) {
-  return (
-    <section aria-label="Map">
-      <h2>Map</h2>
-      <p className="page-purpose">Two diagrams of the Federated Identity model. Drag a box, press Simulate to walk the steps, press Reset to put everything back.</p>
-      <DiagramView initialId={diagram} initialSpeed={speed} onSpeed={onSpeed} />
-    </section>
-  );
+  const path = window.location.hash.replace(/^#\/?/, '').split('?')[0];
+  return { id: NAV.some((n) => n.id === path) ? path : 'shelf' };
 }
 
 export default function App() {
@@ -42,8 +30,8 @@ export default function App() {
   const [error, setError] = useState('');
   const [route, setRoute] = useState(currentRoute());
   const [theme, setTheme] = useState(initialTheme);
-  const [fontStep, setFontStep] = useState(() => { try { return localStorage.getItem('privmap.font') || 'M'; } catch { return 'M'; } });
-  useEffect(() => { applyFontSize(fontStep); try { localStorage.setItem('privmap.font', fontStep); } catch { /* blocked */ } }, [fontStep]);
+  const [fontStep, setFontStep] = useState(() => { try { return localStorage.getItem('privshelf.font') || 'M'; } catch { return 'M'; } });
+  useEffect(() => { applyFontSize(fontStep); try { localStorage.setItem('privshelf.font', fontStep); } catch { /* blocked */ } }, [fontStep]);
   const pickTheme = (next) => {
     try { if (next === 'auto') localStorage.removeItem(THEME_KEY); else localStorage.setItem(THEME_KEY, next); } catch { /* not remembered */ }
     setTheme(next);
@@ -103,10 +91,6 @@ export default function App() {
     }
   };
 
-  const saveSpeed = (speed) => {
-    postJson('/api/settings', { speed });
-  };
-
   if (error) {
     return (
       <main className="page">
@@ -136,7 +120,7 @@ export default function App() {
             extra={null}
           >
             <ShelfLink />
-            <VerifyMark id="privilege-map" />
+            <VerifyMark id="privilege-shelf" />
           </TopMenu>
         </div>
         <nav className="shell-nav" aria-label="Pages">
@@ -152,18 +136,16 @@ export default function App() {
         {note || (info.liveAvailable ? '' : info.liveReason)}
       </p>
       <main className="page">
-        <PrivilegeCheck />
-
-        {route.id === 'map' ? <MapPage diagram={route.diagram} speed={info.settings?.speed} onSpeed={saveSpeed} /> : null}
+        {route.id === 'shelf' ? <ShelfPage /> : null}
+        {route.id === 'features' ? <FeaturePage key="features" /> : null}
         {route.id === 'stories' ? <StoriesPage /> : null}
-        {route.id !== 'map' && route.id !== 'stories' ? <FeaturePage key={route.id} pageId={route.id} /> : null}
       </main>
       <footer className="footer">
         <span>
           Workspace <code>{info.workspace}</code>
         </span>
         {branding.footer ? <span>{branding.footer}</span> : null}
-        <button type="button" onClick={reset}>
+        <button type="button" className="primary" onClick={reset}>
           Reset this workspace
         </button>
       </footer>

@@ -12,7 +12,7 @@
 # Fix a DRIFT: copy the canonical file over the vendored one (never edit the vendored copy), then run with --pin.
 # Usage: scripts/check-ui-standard.sh [--pin]   (--pin writes the hash after you re-vendor)
 set -u
-copy_rel="src/standalone-ui.css"   # <- the one line that differs per repo: where the vendored copy lives
+copy_rel="web/src/standalone-ui.css"   # <- the one line that differs per repo: where the vendored copy lives
 root="$(cd "$(dirname "$0")/.." && pwd)"
 canonical="${STANDALONE_UI_CANONICAL:-$HOME/Development/AI-DEMO-Standalone/shared/standalone-ui.css}"
 canonical_url="${STANDALONE_UI_CANONICAL_URL:-https://raw.githubusercontent.com/curtismu7/AI-DEMO-Standalone/main/shared/standalone-ui.css}"

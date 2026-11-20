@@ -27,7 +27,7 @@ fs.writeFileSync(path.join(work, 'react-shim.mjs'), [
   'export const useState = (init) => globalThis.__verifyMarkHooks.useState(init);',
   'export const useEffect = (fn, deps) => globalThis.__verifyMarkHooks.useEffect(fn, deps);',
 ].join('\n'));
-const compiled = await transformWithOxc(read('src/components/VerifyMark.jsx'), 'VerifyMark.jsx', { lang: 'jsx', jsx: { runtime: 'classic' } });
+const compiled = await transformWithOxc(read('web/src/components/VerifyMark.jsx'), 'VerifyMark.jsx', { lang: 'jsx', jsx: { runtime: 'classic' } });
 fs.writeFileSync(path.join(work, 'VerifyMark.mjs'), compiled.code.replace(/from\s+["']react["']/, 'from "./react-shim.mjs"'));
 const { default: VerifyMark } = await import(pathToFileURL(path.join(work, 'VerifyMark.mjs')).href);
 test.after(() => fs.rmSync(work, { recursive: true, force: true }));
@@ -103,12 +103,12 @@ test('shows nothing for another lab\'s mark, without a mark, with status none, o
 });
 
 test('App.jsx renders exactly one <VerifyMark id> with this lab\'s shelf id, inside the shared TopMenu beside the Shelf link, and main.jsx loads its stylesheet', () => {
-  const app = read('src/App.jsx');
-  assert.equal(ID, 'privilege-map');
+  const app = read('web/src/App.jsx');
+  assert.equal(ID, 'privilege-shelf');
   assert.match(app, /^import VerifyMark from ["']\.\/components\/VerifyMark\.jsx["'];?$/m);
   assert.equal((app.match(/<VerifyMark\b/g) || []).length, 1, 'one badge');
   assert.match(app, new RegExp(`<VerifyMark id="${ID}" />`));
   const menu = app.slice(app.indexOf('<TopMenu'), app.indexOf('</TopMenu>'));
-  assert.match(menu, /<ShelfLink \/>\s*<VerifyMark id="privilege-map" \/>/, 'beside the Shelf link, inside TopMenu');
-  assert.match(read('src/main.jsx'), /^import ['"]\.\/components\/VerifyMark\.css['"];?$/m);
+  assert.match(menu, /<ShelfLink \/>\s*<VerifyMark id="privilege-shelf" \/>/, 'beside the Shelf link, inside TopMenu');
+  assert.match(read('web/src/main.jsx'), /^import ['"]\.\/components\/VerifyMark\.css['"];?$/m);
 });

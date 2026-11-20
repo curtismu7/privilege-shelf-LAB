@@ -1,7 +1,6 @@
 {
   "id": "S03",
   "title": "A refusal tells you where to look",
-  "diagram": "nhi-checks",
   "goal": "{{cast.operator}} gets a report that {{cast.agent}} \"does not work\" and needs to find the cause quickly.",
   "obstacle": "Most refusals look alike from the agent's side: a status code and a short body.",
   "control": "Each check refuses with its own status code, so the code points at the check that said no.",
@@ -24,5 +23,10 @@
       "tell": "For a 400, {{cast.operator}} opens the guardrail events for {{cast.key}}.",
       "say": "The block is working as designed. Check the key's guardrail events before blaming the app."
     }
-  ]
+  ],
+  "lab": "https://local.ping-devops.com:8443/privilege-map/",
+  "link": {
+    "label": "Open the Privilege Map lab",
+    "url": "https://local.ping-devops.com:8443/privilege-map/"
+  }
 }
