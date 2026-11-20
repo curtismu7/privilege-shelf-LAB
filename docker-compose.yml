@@ -8,9 +8,11 @@ services:
       SHELF_URL: ${SHELF_URL:-http://127.0.0.1:4400}
       MODE: mock
       LAB_PROXY_ORIGINS: "${LAB_PROXY_ORIGINS:-https://local.ping-devops.com:8443}"
+      LAB_ALLOWED_HOSTS: "localhost:${HOST_PORT:-7828},127.0.0.1:${HOST_PORT:-7828},privilege-shelf.local.ping-devops.com:${HOST_PORT:-7828},local.ping-devops.com:8443"
       HOST_PORT: "${HOST_PORT:-7828}"
+      PORT: "${HOST_PORT:-7828}"
     ports:
-      - "127.0.0.1:${HOST_PORT:-7828}:7828"
+      - "127.0.0.1:${HOST_PORT:-7828}:${HOST_PORT:-7828}"
     read_only: true
     tmpfs:
       - /tmp
