@@ -79,7 +79,7 @@ function proxyOrigins(env = process.env) {
 }
 const ALLOWED_ORIGINS = new Set([...[...PUBLIC_PORTS].flatMap((p) => [`http://127.0.0.1:${p}`, `http://localhost:${p}`]), ...PROXY_ORIGINS_LIST]);
 const SPEEDS = ['slow', 'normal', 'fast'];
-const PAGES = ['shelf', 'features', 'stories'];
+const PAGES = ['shelf', 'features', 'docs', 'stories'];
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',

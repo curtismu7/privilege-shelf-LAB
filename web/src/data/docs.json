@@ -1,0 +1,427 @@
+[
+ {
+  "title": "Customer deliverables",
+  "rows": [
+   {
+    "doc": "On users' personal agent design",
+    "pdf": "In repo",
+    "covers": "The personal-agent security architecture, built on an airline loyalty-program review: members bringing their own agent (ChatGPT, coding CLIs, anything MCP-capable) and the security between \u2014 the no-BFF/no-DPoP architecture, gateway-fronted tool calls with minutes-long single-audience bearer tokens, the as-built assistant, the gap analysis, and the recommended design. Top of page maps the design to Agent Privilege and links the demo surfaces and diagrams. Working draft, 2026-10-09, prepared for the customer's AI team"
+   },
+   {
+    "doc": "Request Header Size (HTTP 431) Guidance",
+    "pdf": "In repo",
+    "covers": "Investigating and mitigating HTTP 431 \"Request Header Fields Too Large\" in a browser-based headless Ping SDK / DaVinci flow on a custom domain: cookie-scope and intermediary causes, five remediation options (BFF/proxy, cookie scope, credentialed-request limits, intermediary stripping, eTLD+1 domain), and the HAR-capture diagnostic sequence"
+   }
+  ]
+ },
+ {
+  "title": "Start here",
+  "rows": [
+   {
+    "doc": "Orientation & map",
+    "pdf": "\u2014",
+    "covers": "One-screen orientation to the whole Privilege effort: the two deployment modes, where the code lives, what to read first"
+   },
+   {
+    "doc": "Canonical investigation record",
+    "pdf": "\u2014",
+    "covers": "Architecture, protocol on every hop, every blocker and how it was ruled out, dated newest-last. The trap list at the end of each section is what saves the time"
+   },
+   {
+    "doc": "Lessons learned",
+    "pdf": "\u2014",
+    "covers": "Behaviors that cost real time and aren't in Ping's docs: policy union, entry-path pinning, DCR statelessness, hosted-vs-self-hosted auth. Read before authoring a policy or debugging a 403/404"
+   },
+   {
+    "doc": "Console steps",
+    "pdf": "\u2014",
+    "covers": "The console-side steps that cannot be automated or tested from the repo"
+   },
+   {
+    "doc": "Agentless configuration",
+    "pdf": "\u2014",
+    "covers": "Operating the live Agentless (OAuth/PKCE) gateway in ping-devops-cmuir: current source of truth for OAuth, routing and image values"
+   },
+   {
+    "doc": "Agent configuration",
+    "pdf": "\u2014",
+    "covers": "\u26a0\ufe0f Stale-bannered 2026-10-10: describes the removed cm-mcpgw deployment \u2014 kept for the console-side operating method. Current state in Agent mode end to end"
+   },
+   {
+    "doc": "Current configuration index",
+    "pdf": "\u2014",
+    "covers": "Choosing between Agentless and Agent modes, and comparing their current values side by side"
+   },
+   {
+    "doc": "Tag policies in depth",
+    "pdf": "\u2014",
+    "covers": "What tag policies are and what they are not: name-regex \u2192 tag-set rules that do NOT auto-tag (measured), the CTags PUT that actually applies tags, per-resource quirks (namespaced agent-key PUT, MCP-app display bug), and the live demo-map-* set with its maintenance rule"
+   },
+   {
+    "doc": "Official Ping config reference",
+    "pdf": "Drive (SE)",
+    "covers": "Ping's own configuration checklist (received 2026-08-12). First doc to call out K8s ingress 443\u21928623 and the 8690 mesh port; the repo's K8s setup was audited against it"
+   },
+   {
+    "doc": "Technical summary v3",
+    "pdf": "In repo",
+    "covers": "Ping's own summary of the MCP gateway feature. PDF only; v1/v2 exports remain outside the repo"
+   }
+  ]
+ },
+ {
+  "title": "Gateway \u2014 setup & clients",
+  "rows": [
+   {
+    "doc": "Registering an MCP server",
+    "pdf": "Drive (SE)",
+    "covers": "App fields, entry path, Auth Mode, policy \u2014 and what was tested live on the Agent Privilege (2026-10-02)"
+   },
+   {
+    "doc": "Sidecar MCP servers",
+    "pdf": "Drive (SE)",
+    "covers": "Running an MCP server as a sidecar in the Agent Privilege pod: ports, secrets, registering, verifying (tested live 2026-10-02)"
+   },
+   {
+    "doc": "Connecting an MCP client",
+    "pdf": "Drive (SE)",
+    "covers": "The app URL, discovery, self-registration, PKCE sign-in, tokens, client setup (tested live 2026-10-03)"
+   },
+   {
+    "doc": "Setting up a calling agent",
+    "pdf": "Drive (SE)",
+    "covers": "Registering an agent that calls the gateway with a key: scopes, model limits, granting remote agents and tool servers, the custodian, runtime protection, refusals (tested live 2026-10-03/04)"
+   },
+   {
+    "doc": "Aggregate apps",
+    "pdf": "Drive (SE)",
+    "covers": "Many MCP servers behind one address: the <member>__<tool> prefix, granting tools, the two layers of access, the errors an aggregate returns (tested live 2026-10-04)"
+   },
+   {
+    "doc": "Load balancer & second gateway",
+    "pdf": "\u2014",
+    "covers": "Two gateways as nodes of one mesh cluster: one app registration serves both, a shared token store, and the failover behavior after the fix"
+   },
+   {
+    "doc": "Building an agent the gateway can front",
+    "pdf": "Drive (SE)",
+    "covers": "The agent's side of A2A: the card, the JSON-RPC endpoint, which credential each auth mode delivers, refusing other paths, error codes, the direct door (tested live 2026-10-03)"
+   }
+  ]
+ },
+ {
+  "title": "Gateway \u2014 agent-to-agent (A2A)",
+  "rows": [
+   {
+    "doc": "Agent-to-agent (A2A)",
+    "pdf": "Drive (SE)",
+    "covers": "A2A direct and through the Agent Privilege: agent card, Remote Agent setup, calling agents and their keys, auth modes, Static Token, AIGuard and NeMo (tested live 2026-10-03)"
+   },
+   {
+    "doc": "A2A auth modes compared",
+    "pdf": "Drive (SE)",
+    "covers": "None, Static Token, User Token and Pass Agent Token on a Remote Agent: what each delivers, which one the gateway refuses, how to choose and verify (tested live 2026-10-03/04)"
+   },
+   {
+    "doc": "Guardrails for A2A",
+    "pdf": "Drive (SE)",
+    "covers": "AIGuard on agent-to-agent calls: where it sits, the JSON-RPC block, which message parts are inspected, the a2a_request_* records, what is not covered (tested live 2026-10-03)"
+   }
+  ]
+ },
+ {
+  "title": "Gateway \u2014 AI protection",
+  "rows": [
+   {
+    "doc": "AIGuard (console walkthrough)",
+    "pdf": "\u2014",
+    "covers": "The Add Agent wizard's Runtime Protection step: four detector groups and eleven detectors, Enable and Fail Closed, External Inspection and the ML Sidecar (console walkthrough with screenshots, 2026-10-08)"
+   },
+   {
+    "doc": "ML sidecar rollout across Agent Registry",
+    "pdf": "\u2014",
+    "covers": "Wiring the demo sidecar into every registry key: the five-setting recipe, per-key state, the expired-key renewal catch, a2a-only keys get AIGuard too, Block Agreement off as the provable mode (tested live 2026-10-12)"
+   },
+   {
+    "doc": "Setting guardrail thresholds",
+    "pdf": "\u2014",
+    "covers": "How alert/block thresholds decide, where to set them on a key, choosing the value from the logged score, and a worked jailbreak 0.9 \u2192 0.8 change on an a2a-only key that turned two alerted jailbreaks into 400s (tested live 2026-10-14)"
+   },
+   {
+    "doc": "Guardrails & the external detector",
+    "pdf": "Drive (SE)",
+    "covers": "AIGuard on the model route: per-key detectors and thresholds, what a block looks like and its logs, the /inspect contract, Block Agreement, NeMo rails, what is and is not inspected (tested live 2026-10-03)"
+   },
+   {
+    "doc": "LLM routing & virtual keys",
+    "pdf": "Drive (SE)",
+    "covers": "The /llm/<provider>/v1 route and virtual keys: key settings, order of checks, allowed models, rate limits, refusals, the LLM request log line (tested live 2026-10-03)"
+   },
+   {
+    "doc": "LLM protection in the demo stack",
+    "pdf": "\u2014",
+    "covers": "How LLM protection is wired into the AI-DEMO2 BFF: secrets into ai-demo-secrets, gateway route, what the demo shows"
+   },
+   {
+    "doc": "Gateway release v1.261009",
+    "pdf": "\u2014",
+    "covers": "Release inventory for the 9 Oct 2026 gateway image: bedrock-mantle provider, the OpenAI-compat Bedrock deployments route, model catalog refresh, llm_policy_response_denied, and the imageID-vs-index-digest gotcha (static analysis, 2026-10-12)"
+   },
+   {
+    "doc": "Gateway release v1.261009 \u2014 demo runbook",
+    "pdf": "\u2014",
+    "covers": "Every release claim converted to a tested demo step: catalog dropdowns live, the response-side policy denial end to end (llm_policy_response_denied + the 400/UpstreamStatus:200 pairing), llama.cpp through /llm/custom/v1, mantle confirmed as a key provider, Bedrock block blocked-with-reason; AIGuard-sanitize vs policy-withhold demo switch (tested live 2026-10-12)"
+   }
+  ]
+ },
+ {
+  "title": "Gateway \u2014 observability",
+  "rows": [
+   {
+    "doc": "Logging with Elasticsearch",
+    "pdf": "Drive (SE)",
+    "covers": "What reaches Elasticsearch (console audit events only), where model calls and guardrail verdicts are recorded, shipping them, Kibana searches, the secrets both feeds contain (read live 2026-10-03)"
+   },
+   {
+    "doc": "Reading gateway errors",
+    "pdf": "Drive (SE)",
+    "covers": "What each status code can mean, the log lines behind it, tracing one request, backend and guardrail errors (reproduced live 2026-10-03)"
+   },
+   {
+    "doc": "Elasticsearch & Kibana runbook",
+    "pdf": "\u2014",
+    "covers": "Sending Privilege SIEM events to Elasticsearch and viewing them in Kibana, using Kibana's port-forward as the endpoint"
+   },
+   {
+    "doc": "Audit evidence & compliance mappings",
+    "pdf": "\u2014",
+    "covers": "What the gateway actually emits for the audit close: the three verdict/denial event types with their live-verified MITRE ATLAS / NIST AI RMF / OWASP LLM mappings (catalog aigw-compliance-v1.1.0, measured 2026-10-13), where to show each piece, and what remains unverified (the deck's slide-7 framework, the SIEM index's current state)"
+   }
+  ]
+ },
+ {
+  "title": "Sensor",
+  "rows": [
+   {
+    "doc": "Sensor on Docker (guide)",
+    "pdf": "Drive (SE)",
+    "covers": "The Privilege node sensor on any Docker host: setup, how it works, identity, logging, failure modes"
+   },
+   {
+    "doc": "Sensor on Docker (our environment)",
+    "pdf": "Drive (SE)",
+    "covers": "Our Docker\u2192local-gateway\u2192Docker loop, our values, and the 2026-10-01 sensor failure and fix"
+   },
+   {
+    "doc": "Sensor on Kubernetes (guide)",
+    "pdf": "Drive (SE)",
+    "covers": "The sensor on any Kubernetes cluster: Helm install, ServiceAccount-token identity, chart values"
+   },
+   {
+    "doc": "Sensor on Kubernetes (our environment)",
+    "pdf": "Drive (SE)",
+    "covers": "Our values, how k8s/deploy.sh installs the sensor, open questions"
+   },
+   {
+    "doc": "Sensor enforcement policies",
+    "pdf": "Drive (SE)",
+    "covers": "How a policy reaches the sensor, off/audit/enforce, what a rule contains, scope, what termination looks like, the tier, and a safe local test (tested live 2026-10-03)"
+   }
+  ]
+ },
+ {
+  "title": "Secrets Hub",
+  "rows": [
+   {
+    "doc": "Secrets Hub with Google Secret Manager",
+    "pdf": "Drive (SE)",
+    "covers": "Connecting GSM as a Privilege Secrets Hub: project setup, the API the form leaves out, what sync and view read, policies, and the service-account key landing in the audit log (tested live 2026-10-04)"
+   }
+  ]
+ },
+ {
+  "title": "Demos & environments",
+  "rows": [
+   {
+    "doc": "A2A demo & setup",
+    "pdf": "Drive (SE)",
+    "covers": "Runbook for both A2A demos through the Agent Privilege: the pre-demo check, both demo scripts with what to say, setup from scratch with our values, symptom-to-fix table and known limits"
+   },
+   {
+    "doc": "Agent approvals \u2014 the demo that works today",
+    "pdf": "\u2014",
+    "covers": "HITL via native agentapprovals: the console-fallback demo script (ApprovalReq \u2192 HITL Requests \u2192 human decision \u2192 terminal auditable state), and the recorded Slack/Mattermost notification failure (dispatcher never fires on an agentless tenant \u2014 Ping support report on the Desktop) with the do-not-promise rule"
+   },
+   {
+    "doc": "New demo environment",
+    "pdf": "\u2014",
+    "covers": "A separate demo environment from scratch (own PingOne env, gateway, apps, agents): parameter table, what is verified, enrolling with the right Host IP, token and CPU traps, order of steps"
+   },
+   {
+    "doc": "Deploying & upgrading on Kubernetes",
+    "pdf": "Drive (SE)",
+    "covers": "Helm install/upgrade/re-enroll/teardown of an Agentless gateway: first-install sequence, the Host-IP and token-whitespace traps, extraContainers and floating-tag upgrade rules, the PV-destruction teardown deadlock, and what is verified vs from notes (2026-10-09)"
+   },
+   {
+    "doc": "Running the gateway locally (Docker)",
+    "pdf": "Drive (SE)",
+    "covers": "The profile: mcpgw compose stack: start/stop, enrollment token + pingone.env + /etc/hosts + console app, the post-swap port map (settle by probing), nginx front door, verification incl. the smoke script, and the CA-wall status of the currently stopped local gateway (2026-10-09)"
+   },
+   {
+    "doc": "Workload identity for agent callers",
+    "pdf": "Drive (SE)",
+    "covers": "What Pass Agent Token demands (token-pass), the SPIFFE\u2192PingFederate actor-token path verified live 2026-09-26, and the documented gap: no caller has yet presented a workload token to the gateway, with the experiment that would close it (2026-10-09)"
+   },
+   {
+    "doc": "Red team: a hostile A2A agent",
+    "pdf": "Drive (SE)",
+    "covers": "The poisoned-Agent-Card attack end to end: standalone/hostile-a2a-agent, the deployed instance, what the gateway blocked vs alerted vs passed (measured 2026-10-03/06), the three properties of an A2A block, and what the demo does not claim (2026-10-09)"
+   },
+   {
+    "doc": "Auth modes for MCP backends",
+    "pdf": "Drive (SE)",
+    "covers": "What each mode sends the backend (None, Static Token, User Token, Pass Agent Token, OAuth), the header pass-through + X-Procyon-Mcp-Cap behavior, the verified instances in this stack, the OAuth warning (breaks discovery on v1.260906), and a choosing guide (2026-10-09)"
+   },
+   {
+    "doc": "SE1 shared demo",
+    "pdf": "\u2014",
+    "covers": "Setting up the shared Privilege demo in the SE1 environment"
+   },
+   {
+    "doc": "Running our demo on the shared env",
+    "pdf": "\u2014",
+    "covers": "Gap analysis for pointing our stack (UC45\u201347, LLM virtual keys, the MCP-client door) at the shared SE1 environment: what breaks and why, what we would add there, the 15-minute console probe for the open gateway question, and how to read each outcome (2026-10-11)"
+   },
+   {
+    "doc": "Privilege Agent setup \u2014 Mac",
+    "pdf": "\u2014",
+    "covers": "Agent-based persona onboarding for the shared Demo Engineering environment, run on your own Mac instead of Windows 11 VMs"
+   },
+   {
+    "doc": "Agent features master index",
+    "pdf": "\u2014",
+    "covers": "The ten agent-facing Privilege features in demo arc order, each with a description and links to the detailed docs; names the three coverage gaps (rug-pull matrix, agentapprovals doc, compliance mapping); rows 22-29 list the eight features added for the 2026-11-02 release, all Ping claims not tested on our tenant"
+   },
+   {
+    "doc": "Privilege Agent Field Guide",
+    "pdf": "\u2014",
+    "covers": "Trainer's page: the top 10 agent features in demo arc order (identity \u2192 policy \u2192 LLM \u2192 MCP \u2192 HITL \u2192 proof), each with what/show/say presenter rows, the model-allowlist verified table, and the pre-session caveats (Google lane misconfigured, Slack/Teams approvals unverified). Standalone HTML, grounded in docs/privilege-llm-protection.md and docs/privilege-aiguard-training.md"
+   },
+   {
+    "doc": "CIMD client documents",
+    "pdf": "Drive (SE)",
+    "covers": "CIMD (client metadata documents) for PingOne Privilege \u2014 flow, boundary, and client documents, with diagrams"
+   },
+   {
+    "doc": "MCP discovery-gating demo",
+    "pdf": "Drive (SE)",
+    "covers": "SE demo script: an agent's tools/list returns only what its policy grants \u2014 permit door, deny-by-default door, grant change, agent key, aggregate; pre-demo check and troubleshooting (every claim measured 2026-10-02\u202604)"
+   },
+   {
+    "doc": "Hostile MCP side-by-side",
+    "pdf": "\u2014",
+    "covers": "Governed vs ungoverned twin hostile-MCP servers: the measured ALLOW/DENY matrix (verified live 2026-10-11, v1.261009), the permit-selection policy model, no-policy = DENY ALL, the RefID triple-@@ trap, owner reaping, the 4-min propagation, and what NOT to claim (metadata sanitizer, rug-pull detection)"
+   },
+   {
+    "doc": "Sensor enforcement \u2014 demo runbook",
+    "pdf": "\u2014",
+    "covers": "Verified live 2026-10-13 on OrbStack: a throwaway container plus a second sensor, first in audit mode (would_kill=1, exit 0) then enforce mode (Killed, exit 137). Reading raw sensor logs through the Docker API socket; console-pushed policy is not proven."
+   },
+   {
+    "doc": "A2A guardrails \u2014 demo runbook",
+    "pdf": "\u2014",
+    "covers": "A seven-message ladder through the A2A hop: the plain injection is blocked (400 in 0.56 s) while reworded attacks, PII and exfiltration pass; the threshold table, the poisoned tool result on the worker's MCP leg, and the live-run notes of 2026-10-13 (alert status unconfirmed)."
+   },
+   {
+    "doc": "Backend auth modes \u2014 demo runbook",
+    "pdf": "\u2014",
+    "covers": "The same call with three outcomes \u2014 None, Static Token, Pass Agent Token (a 403 from the gateway) \u2014 using the worker's bearer gate; User Token and a successful Pass Agent Token are not demoable. From code and the measured guides, not run live."
+   },
+   {
+    "doc": "Aggregate apps \u2014 demo runbook",
+    "pdf": "\u2014",
+    "covers": "One address, many MCP servers: the four aggregate doors (aggregate, banking-aggregate, aggregate-limited, aggregate-none), prefixed tool names and the two access layers. Door inventory read live 2026-10-13; tool calls were not run (the demo keys lack mcp scope)."
+   },
+   {
+    "doc": "Secrets Hub \u2014 demo runbook",
+    "pdf": "\u2014",
+    "covers": "The connected Google hub (GCP-hub-secrets, Synced, 2 secrets) verified 2026-10-13, with the setup, View and policy-grant steps from the guide and the caveats: Secret Manager Admin role, the extra API, and the service-account key written to the audit log in clear text."
+   },
+   {
+    "doc": "Ping's reference demo, explained",
+    "pdf": "Drive (SE)",
+    "covers": "The two-agent demo (aigwdemo) from the source up: three processes, the six legs and which cross the gateway, the four ADK traps the demo solves (A2A bearer, card object, transportOptions, GatewayGemini), the seeded findings, the UI's eight detector groups, and the runbook condensed (source-verified 2026-10-09, not yet run)"
+   },
+   {
+    "doc": "Policies in depth",
+    "pdf": "Drive (SE)",
+    "covers": "What tool policies do when there is more than one: the union model (create adds, expiry silently subtracts, delete subtracts identically, edit-down does nothing), discovery-gating and why the client never sees \"denied\", the four indistinguishable 403s, groups (documented, not reproduced), per-app scope, and when a \"policy problem\" isn't one \u2014 every step measured live 2026-10-10"
+   },
+   {
+    "doc": "PF identity in Cedar policies",
+    "pdf": "\u2014",
+    "covers": "Can a PingFederate token claim drive a Cedar AI policy? Measured 2026-10-20: the door trusts only itself, PF is not registered in Privilege, Cedar reads a fixed attribute set (token scopes, group, tool, args, app) and no raw claims, act or ID-JAG. Route A (PF behind PingOne, people), route C (native workload identity + RequiredClaims, agents), the rule templates, Candidate vs Active, measured vs untested. Diagram: AI Agent Gateway diagrams, AI Policies tab; live demo: AI Policies Demo"
+   },
+   {
+    "doc": "PF token on Privilege: status and restart checklist",
+    "pdf": "\u2014",
+    "covers": "Where the PingFederate token test stands on 2026-10-22: NHI audience and token-manager audience now match the pftoken door, the gateway accepts the token and refuses it on policy (no grant), console discovery finds no tools on pftoken, grant deletions unexplained. Checklist for when it is fixed"
+   },
+   {
+    "doc": "PF token exchange into Privilege, with Pass Agent Token",
+    "pdf": "\u2014",
+    "covers": "Federated agents: step-by-step setup (parts A\u2013I, with console screenshots) for an agent that presents its own PingFederate token to a P1 Privilege Agent App. What Privilege does and can't do here; tools by scope (grant RequiredClaims tiers); the token passed through to the MCP server (whoami); Cedar blocking a tool by token scope; every failure and its log line. Measured 2026-10-26/27. Section 17 (2026-11-01 and 2026-11-02): what gateway v1.261029, v1.261030 and v1.261102 changed, read from the binary and UNVERIFIED, gateway 2 of our SE mesh on v1.261102 (pod ready, same 6 tools; gateway 1 still v1.261030), and the 2026-11-02 release features not yet measured. Live demo: /privilege-pf-token. What each gateway release added: /gateway-claims"
+   },
+   {
+    "doc": "OBO with PingFederate in Privilege: setup",
+    "pdf": "\u2014",
+    "covers": "The full on-behalf-of chain: user SSO \u2192 PingFederate RFC 8693 token exchange (sub = user, act.sub = agent, audience = the agent app) \u2192 Privilege NHI trusts PF via JWKS \u2192 Pass Agent Token agent app forwards the verified token to the MCP backend. Covers PF client/token-processor/token-manager setup, the NHI required claims, the grant rules (including the do-not-POST-grants trap), scope tiers and Cedar, the curl test sequence, and the refusal-to-log-line troubleshooting table. OBO shape verified end to end 2026-11-13 (section 9.1: id-token subject, the SP-connection audience gate, JWKS-published signing key, scope tiers); the whole PF side is restored by scripts/pingfederate/provision-pf-obo-privilege.js"
+   },
+   {
+    "doc": "Agent mode end to end",
+    "pdf": "Drive (SE)",
+    "covers": "The Privilege Agent on a Mac, measured: device-bound identity in the Secure Enclave, pairing and re-pairing order, the local console, the cloud frontend's 403 gate \u2014 and the reframe: the agent is an identity anchor, not an MCP transport (cm-mcpgw is gone; MCP runs through the agentless gateways). Stale-agent-doc corrections included; paired live 2026-10-10"
+   }
+  ]
+ },
+ {
+  "title": "Reference & records",
+  "rows": [
+   {
+    "doc": "OpenAPI MCP on Kubernetes",
+    "pdf": "In repo",
+    "covers": "Working patterns for OpenAPI-based MCP on Kubernetes and the remaining gap (2026-10-01, updated 2026-10-03)"
+   },
+   {
+    "doc": "Fix Privilege MCP guide \u2014 status",
+    "pdf": "\u2014",
+    "covers": "Status split from the raw punch list of the ai-demo.ping-devops.com guide fix; original numbering kept for traceability"
+   },
+   {
+    "doc": "Status snapshot 2026-08-02",
+    "pdf": "\u2014",
+    "covers": "Point-in-time snapshot, superseded by the canonical record. Kept as historical evidence only"
+   },
+   {
+    "doc": "Ping decks & exports",
+    "pdf": "Drive (SE)",
+    "covers": "Ping-provided decks and older exports: Privilege-AIGuard, Privilege-AI-Gateway, Privilege+Shared Demo, Instructional Demo Setup (Confluence export + SE1), Technical Summary v1/v2"
+   },
+   {
+    "doc": "SE enablement storyboards",
+    "pdf": "\u2014",
+    "covers": "Ping's SE storyboards (HTML, ~13 MB of embedded images, not committed): architecture, flows, troubleshooting order. The older deck's EvaluateHost routing model is disproven on build v1.260726"
+   }
+  ]
+ },
+ {
+  "title": "Planned",
+  "rows": [
+   {
+    "doc": "Guide",
+    "pdf": "What it covers",
+    "covers": "Testable now?"
+   }
+  ]
+ }
+]

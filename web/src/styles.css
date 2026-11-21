@@ -434,3 +434,64 @@ html {
   font-size: 0.75rem;
   color: var(--muted);
 }
+
+/* ===== Docs index (owner, 2026-11-21): the Privilege docs snapshot ===== */
+.docs-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.docs-controls label {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.docs-controls input {
+  min-width: 240px;
+  flex: 0 1 320px;
+}
+
+.docs-section h3 {
+  margin: 18px 0 8px;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.docs-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.docs-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.docs-doc {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.docs-covers {
+  flex: 1 1 100%;
+  font-size: 0.8125rem;
+  color: var(--text-body);
+  line-height: 1.45;
+}
+
+.docs-pdf {
+  font-size: 0.6875rem;
+}

@@ -1,6 +1,6 @@
 # Privilege Shelf LAB
 
-An index of the whole PingOne Privilege standalone family on one page: every Privilege-family lab with a one-line what-it-does, its catalog id and a link that opens it through the shared lab proxy. Also carries the 21 Privilege feature cards (what each feature is, how it works and what was not verified) and three presenter stories. It is a fork of privilege-map-LAB; the diagrams were replaced by the lab index.
+An index of the whole PingOne Privilege standalone family on one page: every Privilege-family lab with a one-line what-it-does, its catalog id and a link that opens it through the shared lab proxy. Also carries the 21 Privilege feature cards (what each feature is, how it works and what was not verified), the Privilege docs index (81 documents we own, snapshot of AI-DEMO2's `privilege/DOCUMENTATION-INDEX.md`), and three presenter stories. It is a fork of privilege-map-LAB; the diagrams were replaced by the lab index.
 
 Fork of: privilege-map-LAB (what changed: the ReactFlow map page is gone; the shelf index page was added; the diagrams directory was removed).
 
@@ -26,7 +26,7 @@ npm run build
 npm start
 ```
 
-Open http://127.0.0.1:7828 . With no setup at all, mock mode shows every page: Standalone labs (the index), Feature guide, Stories, and Presenter mode.
+Open http://127.0.0.1:7828 . With no setup at all, mock mode shows every page: Standalone labs (the index), Feature guide, Docs index, Stories, and Presenter mode.
 
 For development, `npm run dev` serves the same page on the same port with hot reload.
 
@@ -67,6 +67,8 @@ The Live button is disabled and its tooltip says why. `POST /api/mode` with `liv
 
 **The lab index.** `src/data/standaloneApps.json` is a snapshot of the demo-shelf registry, filtered to the labs tagged `pingone-privilege`, each with its open URL through the shared lab proxy (`https://local.ping-devops.com:8443/<lab>/`). The page never fetches anything: links open in a new tab and the search filters the snapshot in the browser. Regenerate the snapshot from the registry when labs are added, then commit it.
 
+**The docs index.** `src/data/docs.json` is a snapshot of the AI-DEMO2 repo's `privilege/DOCUMENTATION-INDEX.md` (public on GitHub at curtismu7/AI-DEMO2). Sections become cards; markdown links are flattened to names because the docs live in the AI-DEMO2 repo and the shared SE Drive, not in this app. Regenerate it (re-run the table extraction against the source) when the index there changes, then commit.
+
 ## Health, doctor and reset
 
 ```sh
@@ -90,7 +92,7 @@ This publishes 127.0.0.1:7828 only, runs as a non-root user on a read-only file 
 npm test
 ```
 
-A good run on Node 26 is **89 tests, 89 pass, 0 fail**. The suite builds the page first if `dist/` is missing and starts real test servers on ports 4770-4779 only.
+A good run on Node 26 is **79 tests, 79 pass, 0 fail**. The suite builds the page first if `dist/` is missing and starts real test servers on ports 4770-4779 only.
 
 ## Troubleshooting
 

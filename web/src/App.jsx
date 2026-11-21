@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ShelfPage from './pages/ShelfPage.jsx';
 import FeaturePage from './pages/FeaturePage.jsx';
+import DocsPage from './pages/DocsPage.jsx';
 import StoriesPage from './pages/StoriesPage.jsx';
 import TopMenu, { applyFontSize } from './top-menu/TopMenu.jsx';
 import ShelfLink from "./components/ShelfLink.jsx";
@@ -30,7 +31,7 @@ export default function App() {
   const [error, setError] = useState('');
   const [route, setRoute] = useState(currentRoute());
   const [theme, setTheme] = useState(initialTheme);
-  const [fontStep, setFontStep] = useState(() => { try { return localStorage.getItem('privshelf.font') || 'M'; } catch { return 'M'; } });
+  const [fontStep, setFontStep] = useState(() => { try { return localStorage.getItem('privshelf.font') || 'L'; } catch { return 'L'; } });
   useEffect(() => { applyFontSize(fontStep); try { localStorage.setItem('privshelf.font', fontStep); } catch { /* blocked */ } }, [fontStep]);
   const pickTheme = (next) => {
     try { if (next === 'auto') localStorage.removeItem(THEME_KEY); else localStorage.setItem(THEME_KEY, next); } catch { /* not remembered */ }
@@ -138,6 +139,7 @@ export default function App() {
       <main className="page">
         {route.id === 'shelf' ? <ShelfPage /> : null}
         {route.id === 'features' ? <FeaturePage key="features" /> : null}
+        {route.id === 'docs' ? <DocsPage /> : null}
         {route.id === 'stories' ? <StoriesPage /> : null}
       </main>
       <footer className="footer">
