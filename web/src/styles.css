@@ -153,10 +153,14 @@ html {
 
 .split {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
-  gap: 16px;
+  grid-template-columns: var(--list-w, 260px) 6px minmax(0, 1fr);
+  gap: 12px;
   align-items: start;
 }
+
+.col-handle { width: 6px; min-height: 4rem; border-radius: 3px; background: var(--border); cursor: col-resize; touch-action: none; }
+.col-handle:hover { background: var(--muted); }
+@media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); } .col-handle { display: none; } }
 
 .feature-list {
   display: flex;
